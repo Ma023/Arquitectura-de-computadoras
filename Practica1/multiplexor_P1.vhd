@@ -27,7 +27,6 @@ architecture Multi of Multiplexor is
     signal Seleccion: std_logic_vector(1 downto 0):="00";
     signal Mostrar: std_logic_vector(3 downto 0):="1110";
     signal tmp: std_logic;
-    signal Num1, Num2, Num3, Num4 : std_logic_vector(6 downto 0);
     signal tmp_seg : std_logic_vector(3 downto 0) :="1110";
 
 begin
