@@ -27,7 +27,7 @@ architecture Behavioral of decodificador7seg is
     );
 
 begin
-    process(vectorEntrada)
+    process(vectorEntrada,selector)
     begin
 	if to_integer(unsigned(vectorEntrada)) >= 9 then
 		vectorSegmentos <= "0000000";

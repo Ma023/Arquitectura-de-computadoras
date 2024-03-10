@@ -5,13 +5,11 @@ use ieee.numeric_std.all;
 
 entity Multiplexor is
     PORT(
-        entrada1: in std_logic_vector(3 downto 0);
-        entrada2: in std_logic_vector(3 downto 0);
-        entrada3: in std_logic_vector(3 downto 0);
-        entrada4: in std_logic_vector(3 downto 0);
+        entrada: in std_logic_vector(15 downto 0);
         Reloj: in std_logic;
+        SelectorCC_AC: in std_logic;
         Displays: out std_logic_vector(3 downto 0);
-        Segmentos: out std_logic_vector(6 downto 0)
+        Segmentos: out std_logic_vector(6 downto 0);
     );
 end Multiplexor;
 
@@ -27,12 +25,12 @@ architecture Multi of Multiplexor is
     signal Seleccion: std_logic_vector(1 downto 0):="00";
     signal Mostrar: std_logic_vector(3 downto 0):="1110";
     signal tmp: std_logic;
-    signal tmp_seg : std_logic_vector(3 downto 0) :="1110";
+    signal tmp_seg : std_logic_vector(3 downto 0);
 
 begin
     uut: decodificador7seg PORT MAP(
         vectorEntrada=>tmp_seg,
-        selector=>'1',
+        selector=>SelectorCC_AC,
         vectorSegmentos=>Segmentos
     );
     Conteo_clk: Process(Reloj)
@@ -49,14 +47,18 @@ begin
 
     Mostrar_displays: process(Seleccion)
     begin
-	Mostrar <= Mostrar(0) & Mostrar(3 downto 1); 
-       case Mostrar is
-            when "1110" => tmp_seg <= entrada1;
-            when "1101" => tmp_seg <= entrada2;
-            when "1011" => tmp_seg <= entrada3;
-            when "0111" => tmp_seg <= entrada4;
+	    Mostrar <= Mostrar(0) & Mostrar(3 downto 1); --ROR 
+    end process;
+    
+    process(Mostrar)
+    begin
+        case Mostrar is
+            when "1110" => tmp_seg <= entrada(3 downto 0);
+            when "1101" => tmp_seg <= entrada(7 downto 4);
+            when "1011" => tmp_seg <= entrada(11 downto 8);
+            when "0111" => tmp_seg <= entrada(15 downto 12);
             when others => tmp_seg <= "1111";
-	end case;  
+	    end case; 
     end process;
     
 
