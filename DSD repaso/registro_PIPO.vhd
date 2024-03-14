@@ -2,16 +2,16 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
-entity Registro_PIPO is
+entity registro_PIPO is
     Port ( 
         Clock : in STD_LOGIC;
         Load : in STD_LOGIC; -- Terminal para cargar datos
         Data_In : in STD_LOGIC_VECTOR (11 downto 0); -- Datos de entrada (A y B)
         Data_Out : out STD_LOGIC_VECTOR (11 downto 0) -- Datos de salida
     );
-end Registro_PIPO;
+end registro_PIPO;
 
-architecture Behavioral of Registro_PIPO is
+architecture Behavioral of registro_PIPO is
     signal Registro : STD_LOGIC_VECTOR (11 downto 0); -- Registro interno de 12 bits
 begin
     process (Clock)
