@@ -6,10 +6,10 @@ use ieee.numeric_std.all;
 entity Multiplexor is
     PORT(
         entrada: in std_logic_vector(15 downto 0);
-        Reloj: in std_logic;
+        Reloj_Mux: in std_logic;
         SelectorCC_AC: in std_logic;
         Displays: out std_logic_vector(3 downto 0);
-        Segmentos: out std_logic_vector(6 downto 0);
+        Segmentos: out std_logic_vector(6 downto 0)
     );
 end Multiplexor;
 
@@ -33,9 +33,9 @@ begin
         selector=>SelectorCC_AC,
         vectorSegmentos=>Segmentos
     );
-    Conteo_clk: Process(Reloj)
+    Conteo_clk: Process(Reloj_Mux)
     begin
-        if rising_edge(Reloj) then
+        if rising_edge(Reloj_Mux) then
             if Cuenta < 100 then
                 Cuenta <= Cuenta+1;
             else

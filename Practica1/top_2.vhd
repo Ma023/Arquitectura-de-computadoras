@@ -5,7 +5,7 @@ use ieee.numeric_std.all;
 
 entity top_program is 
     PORT(
-        Reloj: in STD_LOGIC;
+        Reloj: INOUT STD_LOGIC;
         Sw1: in STD_LOGIC_VECTOR(11 downto 0);
         Sw2: in STD_LOGIC_VECTOR(11 downto 0);
         btn: in STD_LOGIC;
@@ -14,7 +14,21 @@ entity top_program is
     );
 end entity;
 
+
 architecture Behavioral of top_program is
+-------------------------------------------------------------
+-- Config clk in Machx02
+
+component OSCH
+    generic(NOM_FREQ: string);
+    port(
+        STDBY: in std_logic; 
+        OSC: out std_logic
+        );
+end component;
+-------------------------------------------------------------
+
+
 COMPONENT sumador12bits is
     PORT(
         A: in STD_LOGIC_VECTOR(11 downto 0);
@@ -22,26 +36,31 @@ COMPONENT sumador12bits is
         Resultado: out STD_LOGIC_VECTOR(12 downto 0)
     );
 end COMPONENT;
+
 COMPONENT bin2bcd9 is
     PORT(
 		num_bin: in STD_LOGIC_VECTOR(12 downto 0);
 		num_bcd: out STD_LOGIC_VECTOR(15 downto 0)
     );
 end COMPONENT;
+
 COMPONENT Multiplexor is
     PORT(
         entrada: in std_logic_vector(15 downto 0);
-        Reloj: in std_logic;
+        Reloj_Mux: in std_logic;
+        SelectorCC_AC : in std_logic := '0';
         Displays: out std_logic_vector(3 downto 0);
         Segmentos: out std_logic_vector(6 downto 0)
     );
 end COMPONENT;
+
 COMPONENT div_freq is
     PORT(
         reset, clk: in std_logic;
         clkHlz: out std_logic
     );
 end COMPONENT;
+
 COMPONENT debouncer is
     PORT(
         entrada: in STD_LOGIC;
@@ -50,16 +69,26 @@ COMPONENT debouncer is
         salida: out STD_LOGIC    
     );
 end COMPONENT;
+
 SIGNAL A, B: STD_LOGIC_VECTOR(11 downto 0);
 SIGNAL estado: integer := 0;
 SIGNAL Resultado_Suma: STD_LOGIC_VECTOR(12 downto 0);
 SIGNAL BCD: STD_LOGIC_VECTOR(15 downto 0);
 SIGNAL reloj_baja_frec: STD_LOGIC;
 SIGNAL btn_filtrado: STD_LOGIC;
+
 begin
+-------------------------------------------------------------
+-- Config clk in Machx02
+
+    OSCinst0: OSCH
+    generic map("26.60")
+    port map('0', Reloj);
+-------------------------------------------------------------
+
     uut: sumador12bits port map(
-        A=>A,
-        B=>B,
+        A,
+        B,
         Resultado=>Resultado_Suma
     );
     uut1: bin2bcd9 port map(
@@ -68,7 +97,7 @@ begin
     );
     uut2: Multiplexor port map(
         entrada=>BCD,
-        Reloj=>Reloj,
+        Reloj_Mux=>Reloj,
         Displays=>SelectorDisp,
         Segmentos=>Segmentos
     );    

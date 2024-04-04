@@ -16,7 +16,8 @@ architecture sumador of sumador12bits is
         port(
             A, B: in std_logic;
             Cin: in std_logic;
-            Res: out std_logic
+            Res: out std_logic;
+            Cout: out std_logic
         );
     end component;
     SIGNAL Cout_tmp: STD_LOGIC_VECTOR(11 downto 0);
