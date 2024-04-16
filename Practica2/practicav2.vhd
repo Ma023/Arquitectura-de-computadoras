@@ -253,7 +253,7 @@ VARIABLE m1, m2, m3, m4, m5, m6, m7, m8, auxM : STD_LOGIC_VECTOR(15 DOWNTO 0) :=
         108 => "00001000", -- Se resta
         109 => "00000100", -- al valor de C, el valor de B y se guarda en MBR
         110 => "11111111", -- ciclado -- 64 --
-        111 => "00010001"
+        111 => "00010001",
         OTHERS => ("11111111")
     );
 
@@ -275,7 +275,7 @@ VARIABLE m1, m2, m3, m4, m5, m6, m7, m8, auxM : STD_LOGIC_VECTOR(15 DOWNTO 0) :=
     TYPE ESTADOS IS (Fetch, Decode, Execute);
     SIGNAL estado : ESTADOS;
     SIGNAL RegsABCD : REGISTROS;
-SIGNAL REAUX, REAUX2, REAUX3 : signed(15 DOWNTO 0) := "0000000000000000";
+    SIGNAL REAUX, REAUX2, REAUX3 : signed(15 DOWNTO 0) := "0000000000000000";
     SIGNAL C1 : signed(15 DOWNTO 0) := "0000000010010010";
     SIGNAL C2 : signed(15 DOWNTO 0) := "0000000001001001";
     -----------------------------------------------------
@@ -347,43 +347,43 @@ BEGIN
                 CASE IR(3 DOWNTO 0) IS
                     WHEN "0000" =>
                         REAUX <= signed(RegsABCD(to_integer(unsigned(MAR(3 DOWNTO 2)))));
-                        REAUX2 <= signed(RegsABCD(to_integer(unsigned(MAR(1 DOWNTO 0))));
+                        REAUX2 <= signed(RegsABCD(to_integer(unsigned(MAR(1 DOWNTO 0)))));
                         estado <= Execute;
                         PC <= PC + 2;
                     WHEN "0001" =>
-                        REAUX <= signed(RegsABCD(to_integer(unsigned(MAR(3 DOWNTO 2))));
-                        REAUX2 <= signed(RegsABCD(to_integer(unsigned(MAR(1 DOWNTO 0))));
-                        RegsABCD(to_integer(unsigned(MAR(3 DOWNTO 2)))) <= REAUX2;
+                        REAUX <= signed(RegsABCD(to_integer(unsigned(MAR(3 DOWNTO 2)))));
+                        REAUX2 <= signed(RegsABCD(to_integer(unsigned(MAR(1 DOWNTO 0)))));
+                        RegsABCD(to_integer(unsigned(MAR(3 DOWNTO 2)))) <= std_logic_vector(REAUX2);
                         estado <= Fetch;
                         PC <= PC + 2;
                     WHEN "0010" =>
-                        REAUX <= signed(RegsABCD(to_integer(unsigned(MAR(3 DOWNTO 2))));
-                        REAUX2 <= signed(RegsABCD(to_integer(unsigned(MAR(1 DOWNTO 0))));
-                        RegsABCD(to_integer(unsigned(MAR(3 DOWNTO 2)))) <= REAUX;
+                        REAUX <= signed(RegsABCD(to_integer(unsigned(MAR(3 DOWNTO 2)))));
+                        REAUX2 <= signed(RegsABCD(to_integer(unsigned(MAR(1 DOWNTO 0)))));
+                        RegsABCD(to_integer(unsigned(MAR(3 DOWNTO 2)))) <= std_logic_vector(REAUX);
                         estado <= Fetch;
                         PC <= PC + 2;
                     WHEN "0011" =>
-                        REAUX <= signed(RegsABCD(to_integer(unsigned(MAR(3 DOWNTO 2))));
-                        REAUX2 <= signed(RegsABCD(to_integer(unsigned(MAR(1 DOWNTO 0))));
-                        RegsABCD(to_integer(unsigned(MAR(3 DOWNTO 2)))) <= REAUX + REAUX2;
+                        REAUX <= signed(RegsABCD(to_integer(unsigned(MAR(3 DOWNTO 2)))));
+                        REAUX2 <= signed(RegsABCD(to_integer(unsigned(MAR(1 DOWNTO 0)))));
+                        RegsABCD(to_integer(unsigned(MAR(3 DOWNTO 2)))) <= std_logic_vector(REAUX + REAUX2);
                         estado <= Fetch;
                         PC <= PC + 2;
                     WHEN "0100" =>
-                        REAUX <= signed(RegsABCD(to_integer(unsigned(MAR(3 DOWNTO 2))));
-                        REAUX2 <= signed(RegsABCD(to_integer(unsigned(MAR(1 DOWNTO 0))));
-                        RegsABCD(to_integer(unsigned(MAR(3 DOWNTO 2)))) <= REAUX - REAUX2;
+                        REAUX <= signed(RegsABCD(to_integer(unsigned(MAR(3 DOWNTO 2)))));
+                        REAUX2 <= signed(RegsABCD(to_integer(unsigned(MAR(1 DOWNTO 0)))));
+                        RegsABCD(to_integer(unsigned(MAR(3 DOWNTO 2)))) <= std_logic_vector(REAUX - REAUX2);
                         estado <= Fetch;
                         PC <= PC + 2;
                     WHEN "0101" =>
-                        REAUX <= signed(RegsABCD(to_integer(unsigned(MAR(3 DOWNTO 2))));
-                        REAUX2 <= signed(RegsABCD(to_integer(unsigned(MAR(1 DOWNTO 0))));
-                        RegsABCD(to_integer(unsigned(MAR(3 DOWNTO 2)))) <= REAUX * REAUX2;
+                        REAUX <= signed(RegsABCD(to_integer(unsigned(MAR(3 DOWNTO 2)))));
+                        REAUX2 <= signed(RegsABCD(to_integer(unsigned(MAR(1 DOWNTO 0)))));
+                        RegsABCD(to_integer(unsigned(MAR(3 DOWNTO 2)))) <= std_logic_vector(REAUX * REAUX2);
                         estado <= Fetch;
                         PC <= PC + 2;
                     WHEN "0110" =>
-                        REAUX <= signed(RegsABCD(to_integer(unsigned(MAR(3 DOWNTO 2))));
-                        REAUX2 <= signed(RegsABCD(to_integer(unsigned(MAR(1 DOWNTO 0))));
-                        RegsABCD(to_integer(unsigned(MAR(3 DOWNTO 2)))) <= REAUX / REAUX2;
+                        REAUX <= signed(RegsABCD(to_integer(unsigned(MAR(3 DOWNTO 2)))));
+                        REAUX2 <= signed(RegsABCD(to_integer(unsigned(MAR(1 DOWNTO 0)))));
+                        RegsABCD(to_integer(unsigned(MAR(3 DOWNTO 2)))) <= std_logic_vector(REAUX / REAUX2);
                         estado <= Fetch;
                         PC <= PC + 2;
                     WHEN OTHERS =>
@@ -413,7 +413,7 @@ BEGIN
         END CASE;
     END IF;
 
-    veriBandera(REAUX, REAUX2, "0000000000000000", bandera);
+    veriBandera(std_logic_vector(REAUX), std_logic_vector(REAUX2), "0000000000000000", bandera);
 
 END PROCESS ControlUnit;
 
@@ -422,7 +422,7 @@ regALU : PROCESS (Reset, IR, REAUX, REAUX2)
     VARIABLE desplazamientos : INTEGER;
 
 BEGIN
-    CASE IR IS
+    CASE IR(7 DOWNTO 4) IS
         WHEN "0000" => ACC <= STD_LOGIC_VECTOR(NOT REAUX);
         
         WHEN "0001" => ACC <= STD_LOGIC_VECTOR(REAUX AND REAUX2);
@@ -453,23 +453,20 @@ BEGIN
         WHEN "0101" =>
             REAUX3 <= REAUX + REAUX2;
             ACC <= std_logic_vector(REAUX3);
-            veriBandera(REAUX3, REAUX, REAUX2, bandera);
         WHEN "0110" =>
             REAUX3 <= REAUX - REAUX2;
             ACC <= std_logic_vector(REAUX3);
-            veriBandera(REAUX3, REAUX, REAUX2, bandera);
         WHEN "0111" =>
-            REAUX3 <= REAUX * REAUX2;
+            REAUX3 <= REAUX(7 DOWNTO 0) * REAUX2(7 DOWNTO 0);
             ACC <= std_logic_vector(REAUX3);
-            veriBandera(REAUX3, REAUX, REAUX2, bandera);
         WHEN "1000" =>
             REAUX3 <= REAUX / REAUX2;
             ACC <= std_logic_vector(REAUX3);
-            veriBandera(REAUX3, REAUX, REAUX2, bandera);
         WHEN OTHERS =>
             ACC <= (OTHERS => '0');
     END CASE;
 END PROCESS;
+
 
 asignacion : PROCESS (cuenta) --Algoritmo Shift and Add 3
     VARIABLE UM_C_D_U : STD_LOGIC_VECTOR(29 DOWNTO 0); --26 bits para separar las U.Millar - Centenas - Decenas - Unidades
@@ -522,13 +519,21 @@ END PROCESS asignacion;
         IF (rising_edge(clk_med)) THEN --Multiplexacion
             selector <= selector + '1';
             CASE(selector) IS
-                WHEN "00" => REGA <= UNI;
+                WHEN "00" => 
+                    REGA(3 DOWNTO 0) <= UNI;
+                    REGA(9 DOWNTO 4) <= "000000";
                     D <= UNI; -- UNIDADES
-                WHEN "01" => REGB <= DEC;
+                WHEN "01" => 
+                    REGB(3 DOWNTO 0) <= DEC;
+                    REGB(9 DOWNTO 4) <= "000000";
                     D <= DEC; -- DECENAS
-                WHEN "10" => REGC <= CEN;
+                WHEN "10" => 
+                    REGC(3 DOWNTO 0) <= CEN;
+                    REGC(9 DOWNTO 4) <= "000000";
                     D <= CEN; -- CENTENAS
-                WHEN "11" => REGD <= MIL;
+                WHEN "11" => 
+                    REGD(3 DOWNTO 0) <= MIL;
+                    REGD(9 DOWNTO 4) <= "000000";
                     D <= MIL; -- UNIDAD DE MILLAR
                 WHEN OTHERS => REGA <= "0000000000";
                     D <= "0000"; -- UNIDAD DE MILLAR
@@ -550,4 +555,4 @@ END PROCESS asignacion;
             WHEN OTHERS => DISPLAY <= "0000110"; --E
         END CASE;
 END PROCESS;
-end programa
+end programa;
