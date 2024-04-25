@@ -53,8 +53,8 @@ architecture rtl of comparador is
 
 
 begin
-    process(a,b,c)
+    process(a,b,c) -- Proceso sensible a cambios en 'a', 'b', y 'c'
     begin
-        min_max(a, b, c, min, max);
+        min_max(a, b, c, min, max); -- Llamada al procedimiento con las señales de entrada y salida
     end process;
 end architecture rtl;
