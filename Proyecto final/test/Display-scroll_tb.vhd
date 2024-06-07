@@ -3,16 +3,10 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
 entity ROM_RAM_Display_tb is
-end entity ROM_RAM_Display_tb;
+end ROM_RAM_Display_tb;
 
 architecture Behavioral of ROM_RAM_Display_tb is
-    -- Señales del testbench
-    signal clk : STD_LOGIC := '0';
-    signal scroll : STD_LOGIC := '0';
-    signal segs : STD_LOGIC_VECTOR(7 downto 0);
-    signal digits : STD_LOGIC_VECTOR(3 downto 0);
-
-    -- Instancia del componente bajo prueba (DUT)
+    -- Component declaration for the Unit Under Test (UUT)
     component ROM_RAM_Display
         Port ( clk : in  STD_LOGIC;
                scroll : in  STD_LOGIC;
@@ -20,43 +14,57 @@ architecture Behavioral of ROM_RAM_Display_tb is
                digits : out  STD_LOGIC_VECTOR(3 downto 0));
     end component;
 
+    -- Signals to connect to UUT
+    signal clk_tb : STD_LOGIC := '0';
+    signal scroll_tb : STD_LOGIC := '0';
+    signal segs_tb : STD_LOGIC_VECTOR(7 downto 0);
+    signal digits_tb : STD_LOGIC_VECTOR(3 downto 0);
+
+    -- Clock period definition
+    constant clk_period : time := 10 ns;
 begin
-    -- Instancia del DUT
+    -- Instantiate the Unit Under Test (UUT)
     uut: ROM_RAM_Display
         Port map (
-            clk => clk,
-            scroll => scroll,
-            segs => segs,
-            digits => digits
+            clk => clk_tb,
+            scroll => scroll_tb,
+            segs => segs_tb,
+            digits => digits_tb
         );
 
-    -- Generador de reloj
-    clk_process: process
+    -- Clock process definitions
+    clk_process : process
     begin
         while true loop
-            clk <= '0';
-            wait for 10 ns;
-            clk <= '1';
-            wait for 10 ns;
+            clk_tb <= '0';
+            wait for clk_period/2;
+            clk_tb <= '1';
+            wait for clk_period/2;
         end loop;
-    end process;
-
-    -- Generador de la señal de desplazamiento
-    stimulus: process
-    begin
-        -- Prueba inicial sin desplazamiento
-        scroll <= '0';
-        wait for 100 ns;
-
-        -- Activar desplazamiento
-        scroll <= '1';
-        wait for 50 ns;
-        scroll <= '0';
-        wait for 200 ns;
-
-        -- Pruebas adicionales pueden ser agregadas aquí
-
-        -- Finalizar simulación
         wait;
     end process;
-end architecture Behavioral;
+
+    -- Stimulus process
+    stim_proc: process
+    begin
+        -- Initialize Inputs
+        scroll_tb <= '0';
+        wait for 100 ns;
+
+        -- Apply scroll signal
+        scroll_tb <= '1';
+        wait for clk_period * 5;
+        scroll_tb <= '0';
+        wait for clk_period * 15;
+
+        -- Apply scroll signal again
+        scroll_tb <= '1';
+        wait for clk_period * 5;
+        scroll_tb <= '0';
+        wait for clk_period * 15;
+
+        -- Stop simulation
+        wait;
+    end process;
+
+end Behavioral;
