@@ -27,7 +27,7 @@ architecture Behavioral of ROM_RAM_Display is
         9 => "01000001", -- A
         10 => "01000100", -- D
         11 => "01001111", -- O
-        -- ...
+        --...
         others => "11111111"
     );
 
@@ -91,11 +91,13 @@ begin
     -- Display data generation
     process(clk)
     begin
-        if rising_edge(clk) then
+       if rising_edge(clk) then
             if char_index <= 12 then
                 display_data <= RAM(word_index)(char_index + 3 downto char_index);
+            elsif char_index < 16 then
+                display_data <= RAM(word_index)(15 downto char_index);
             else
-                display_data <= RAM(word_index)(15 downto char_index) & RAM((word_index + 1) mod 32)(char_index + 3 - 16 downto 0);
+                display_data <= RAM((word_index + 1) mod 32)(char_index - 16 downto 0);
             end if;
         end if;
     end process;
