@@ -142,7 +142,7 @@ ARCHITECTURE programa OF practica IS
     TYPE ROM IS ARRAY (127 DOWNTO 0) OF STD_LOGIC_VECTOR(7 DOWNTO 0);
     ATTRIBUTE syn_romstyle : STRING;
     CONSTANT ROM_Program : ROM := (
-        --DATOS
+        --DATOSPC
         0 => "00010100", -- W=20
         1 => "00000010", -- X=2
         2 => "00000101", -- Y=5

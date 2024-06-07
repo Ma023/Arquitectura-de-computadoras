@@ -1,6 +1,9 @@
 *.pdf
 *.txt
 Resources/
-Test/
+/Test/
 DSD repaso/Repaso
 *.sort
+*.mti
+*.mpf
+*.wlf
