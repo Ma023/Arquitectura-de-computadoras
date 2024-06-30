@@ -606,8 +606,7 @@ BEGIN
                     WHEN veri =>
                         CASE (contaux2) IS
                             WHEN 97 =>
-                                IF (auxV /=
-                                    "000") THEN
+                                IF (auxV /= "000") THEN
                                     IF (auxP2 = "0110100101101101011011010110010101100100011010010110000101110100011001010110110001111001") THEN -- immediately
                                         juego <= win;
                                     ELSE
@@ -761,64 +760,64 @@ BEGIN
                                 ELSE
                                     juego <= lose;
                                 END IF;
-                                WHEN OTHERS =>
-                                    IF (auxV /= "000") THEN
-                                        IF (auxP2 = "0110001001100001011011010110001001101001001000000010000000100000001000000010000000100000") THEN -- bambi
-                                            juego <= win;
+                            WHEN OTHERS =>
+                                IF (auxV /= "000") THEN
+                                    IF (auxP2 = "0110001001100001011011010110001001101001001000000010000000100000001000000010000000100000") THEN -- bambi
+                                        juego <= win;
                                         
-                                        ELSE
-                                            IF (auxP = "01100001") THEN -- a
-                                                auxP1(79 DOWNTO 72) <= "01100001";
-                                                auxP <= "11111111";
-                                                contaux <= 97;
-                                            ELSIF (auxP = "01100010") THEN -- b
-                                                auxP1(63 DOWNTO 56) <= "01100010";
-                                                auxP <= "11111111";
-                                                contaux <= 97;
-                                            ELSIF (auxP = "11111111") THEN
-                                                auxP1 <= auxP1;
-                                            ELSE
-                                                auxP <= "11111111";
-                                                auxP1 <= auxP1;
-                                                auxV <= to_stdlogicvector(to_bitvector(auxV) SRL 1);
-                                                contaux <= 97;
-                                            END IF;
-                                            line1Sig(127 DOWNTO 40) <= auxP1;
-                                        END IF;
-                                    
                                     ELSE
-                                        juego <= lose;
+                                        IF (auxP = "01100001") THEN -- a
+                                            auxP1(79 DOWNTO 72) <= "01100001";
+                                            auxP <= "11111111";
+                                            contaux <= 97;
+                                        ELSIF (auxP = "01100010") THEN -- b
+                                            auxP1(63 DOWNTO 56) <= "01100010";
+                                            auxP <= "11111111";
+                                            contaux <= 97;
+                                        ELSIF (auxP = "11111111") THEN
+                                            auxP1 <= auxP1;
+                                        ELSE
+                                            auxP <= "11111111";
+                                            auxP1 <= auxP1;
+                                            auxV <= to_stdlogicvector(to_bitvector(auxV) SRL 1);
+                                            contaux <= 97;
+                                        END IF;
+                                        line1Sig(127 DOWNTO 40) <= auxP1;
+
                                     END IF;
-                                    
-                                END CASE;
-                            line2Sig(119 DOWNTO 112) <= STD_LOGIC_VECTOR(to_unsigned(contaux, IR'length));
-                            
-                            WHEN win =>
-                                line2Sig(119 DOWNTO 56) <=
-                                "0111011101101001011011100010000100100001001000010010000100100001";--Palabra win!!!
-                            
-                            WHEN lose => line2Sig(119 DOWNTO 48) <= 
-                            "011011000110111101110011011001010010000100100001001000010010000100100001";--Palabra lose!!!
-                            
+                                ELSE
+                                    juego <= lose;
+                                END IF;
                         END CASE;
+
+                        line2Sig(119 DOWNTO 112) <= STD_LOGIC_VECTOR(to_unsigned(contaux, IR'length));
                             
-                            IF (izq = '1') THEN
-                                IF (contaux = 97) THEN
-                                    contaux <= 122;
-                                ELSE
-                                    contaux <= contaux - 1;
-                                END IF;
-                            ELSIF (der = '1') THEN
-                                IF (contaux = 122) THEN
-                                    contaux <= 97;
-                                ELSE
-                                    contaux <= contaux + 1;
-                                END IF;
-                            ELSIF (enter = '1') THEN
-                                    juego <= veri;
-                                    auxP <= STD_LOGIC_VECTOR(to_unsigned(contaux, IR'length));
-                                    auxP1 <= line1Sig(127 DOWNTO 40);
-            END IF;
+                    WHEN win =>
+                        line2Sig(119 DOWNTO 56) <=
+                        "0111011101101001011011100010000100100001001000010010000100100001";--Palabra win!!!
+                            
+                    WHEN lose => line2Sig(119 DOWNTO 48) <= 
+                        "011011000110111101110011011001010010000100100001001000010010000100100001";--Palabra lose!!!
+                            
+                END CASE;
+                            
+                    IF (izq = '1') THEN
+                        IF (contaux = 97) THEN
+                            contaux <= 122;
+                        ELSE
+                            contaux <= contaux - 1;
+                        END IF;
+                    ELSIF (der = '1') THEN
+                        IF (contaux = 122) THEN
+                            contaux <= 97;
+                        ELSE
+                            contaux <= contaux + 1;
+                        END IF;
+                    ELSIF (enter = '1') THEN
+                        juego <= veri;
+                        auxP <= STD_LOGIC_VECTOR(to_unsigned(contaux, IR'length));
+                        auxP1 <= line1Sig(127 DOWNTO 40);
+                    END IF;
         END CASE;
     END IF;
 END PROCESS ahorcado;
