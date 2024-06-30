@@ -817,7 +817,7 @@ BEGIN
                 veriBandera(ACC, STD_LOGIC_VECTOR(REAUX), STD_LOGIC_VECTOR(REAUX2), bandera);
 
             ELSE
-                ACC <= STD_LOGIC_VECTOR(((NOTREAUX) + 1) + REAUX2);
+                ACC <= STD_LOGIC_VECTOR(((NOT REAUX) + 1) + REAUX2);
                 REAUX3 <= REAUX + ((NOT REAUX2) + 1);
                 veriBandera(STD_LOGIC_VECTOR(REAUX3), STD_LOGIC_VECTOR(REAUX), STD_LOGIC_VECTOR((NOT REAUX2) + 1), bandera);
 
