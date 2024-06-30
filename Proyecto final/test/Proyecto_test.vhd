@@ -140,6 +140,8 @@ ARCHITECTURE programa OF practica IS
         109 => "00100000", --
         110 => "00100000", --
         111 => "00100000", --
+
+
         -- Inicializacion de variables
         -- Inicio: inicia en 0
         112 => "00001011", -- Carga el indice del comienzo de la frase(j)
