@@ -133,7 +133,7 @@ ARCHITECTURE programa OF practica IS
         102 => "01011111", -- _
         103 => "01100001", -- a
         104 => "01011111", -- _
-        105 => "01110010", -- d
+        105 => "01100100", -- d
         106 => "00100000", --
         107 => "00100000", --
         108 => "00100000", --
@@ -650,7 +650,7 @@ BEGIN
                                                 juego <= win;
                                             ELSE
                                                 IF (auxP = "01100001") THEN -- a
-                                                    auxP1(79 DOWNTO 72) <= "01110101";
+                                                    auxP1(79 DOWNTO 72) <= "01100001";
                                                     auxP <= "11111111";
                                                     contaux <= 97;
                                                 ELSIF (auxP = "01101100") THEN -- l
@@ -677,8 +677,8 @@ BEGIN
                                                     line1Sig <= line1Sig;
                                                     juego <= win;
                                                 ELSE
-                                                    IF (auxP = "01110011") THEN -- s
-                                                        auxP1(79 DOWNTO 72) <= "01110011";
+                                                    IF (auxP = "01100001") THEN -- c
+                                                        auxP1(79 DOWNTO 72) <= "01100001";
                                                         auxP <= "11111111";
                                                         contaux <= 97;
                                                     ELSIF (auxP = "01101111") THEN -- o
@@ -710,8 +710,8 @@ BEGIN
                                                             auxP1(23 DOWNTO 16) <= "01101110"
                                                             auxP <= "11111111";
                                                             contaux <= 97;
-                                                        ELSIF (auxP = "01110010") THEN -- r
-                                                            auxP1(55 DOWNTO 48) <= "01110010";
+                                                        ELSIF (auxP = "01100100") THEN -- d
+                                                            auxP1(55 DOWNTO 48) <= "01100100";
                                                             auxP <= "11111111";
                                                             contaux <= 97;
                                                         ELSIF (auxP = "01110100") THEN -- t
