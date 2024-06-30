@@ -178,103 +178,115 @@ ARCHITECTURE programa OF practica IS
         144 => "01100011", -- c
         145 => "01110010", -- _
         146 => "01011111", -- _
-        131 => "01100101", -- p
-        132 => "01101110", -- u
-        133 => "01100100", -- _
-        134 => "00100000", -- _
-        135 => "00100000", -- r
-        136 => "00100000", --
-        137 => "00100000", --
-        138 => "00100000", --
-        139 => "00100000", --
-        140 => "00100000", --
-        141 => "00100000", --
-        142 => "00100000", --
-        143 => "00100000", --         
+        147 => "01100101", -- p
+        148 => "01101110", -- u
+        149 => "01100100", -- _
+        150 => "00100000", -- _
+        151 => "00100000", -- r
+        152 => "00100000", --
+        153 => "00100000", --
+        154 => "00100000", --
+        155 => "00100000", --
+        156 => "00100000", --
+        157 => "00100000", --
+        158 => "00100000", --
+        159 => "00100000", --         
         -- Inicializacion de variables
         -- Inicio: inicia en 0
-        144 => "00001011", -- Carga el indice del comienzo de la frase(j)
-        145 => "00000001",
-        146 => "00000000", -- 0 (j)
-        147 => "00001111", -- JUMP a la segunda parte de la funci�n
-        148 => "10100011", -- 163
+        160 => "00001011", -- Carga el indice del comienzo de la frase(j)
+        161 => "00000001",
+        162 => "00000000", -- 0 (j)
+        163 => "00001111", -- JUMP a la segunda parte de la funci�n
+        164 => "11001001", -- 201
         -- Palabra 1: inicia en 32
-        133 => "00001011", -- Carga el indice del comienzo de la palabra(j)
-        134 => "00000001",
-        135 => "00100000", -- 32 (j)
-        136 => "00001111", -- JUMP a la segunda parte de la funci�n
-        137 => "10101110", -- 174
+        165 => "00001011", -- Carga el indice del comienzo de la palabra(j)
+        166 => "00000001",
+        167 => "00100000", -- 32 (j)
+        168 => "00001111", -- JUMP a la segunda parte de la funci�n
+        169 => "11010100", -- 212
         -- Palabra 2: inicia en 48
-        138 => "00001011", -- Carga el indice del comienzo de la palabra(j)
-        139 => "00000001",
-        140 => "00110000", -- 48 (j)
-        141 => "00001111", -- JUMP a la segunda parte de la funci�n
-        142 => "10101110", -- 174
+        170 => "00001011", -- Carga el indice del comienzo de la palabra(j)
+        171 => "00000001",
+        172 => "00110000", -- 48 (j)
+        173 => "00001111", -- JUMP a la segunda parte de la funci�n
+        174 => "11010100", -- 212
         -- Palabra 3: inicia en 64
-        143 => "00001011", -- Carga el indice del comienzo de la palabra(j)
-        144 => "00000001",
-        145 => "01000000", -- 64 (j)
-        146 => "00001111", -- JUMP a la segunda parte de la funci�n
-        147 => "10101110", -- 174
+        175 => "00001011", -- Carga el indice del comienzo de la palabra(j)
+        176 => "00000001",
+        177 => "01000000", -- 64 (j)
+        178 => "00001111", -- JUMP a la segunda parte de la funci�n
+        179 => "11010100", -- 212
         -- Palabra 4: inicia en 80
-        148 => "00001011", -- Carga el indice del comienzo de la palabra(j)
-        149 => "00000001",
-        150 => "01010000", -- 80 (j)
-        151 => "00001111", -- JUMP a la segunda parte de la funci�n
-        152 => "10101110", -- 174
+        180 => "00001011", -- Carga el indice del comienzo de la palabra(j)
+        181 => "00000001",
+        182 => "01010000", -- 80 (j)
+        183 => "00001111", -- JUMP a la segunda parte de la funci�n
+        184 => "11010100", -- 212
         -- Palabra 5: inicia en 96
-        153 => "00001011", -- Carga el indice del comienzo de la palabra(j)
-        154 => "00000001",
-        155 => "01100000", -- 96 (j)
-        156 => "00001111", -- JUMP a la segunda parte de la funci�n
-        157 => "10101110", -- 174
+        185 => "00001011", -- Carga el indice del comienzo de la palabra(j)
+        186 => "00000001",
+        187 => "01100000", -- 96 (j)
+        188 => "00001111", -- JUMP a la segunda parte de la funci�n
+        189 => "11010100", -- 212
         -- Palabra 6: inicia en 112
-        158 => "00001011", -- Carga el indice del comienzo de la palabra(j)
-        159 => "00000001",
-        160 => "01110000", -- 112 (j)
-        161 => "00001111", -- JUMP a la segunda parte de la funci�n
-        162 => "10101110", -- 174
+        190 => "00001011", -- Carga el indice del comienzo de la palabra(j)
+        191 => "00000001",
+        192 => "01110000", -- 112 (j)
+        193 => "00001111", -- JUMP a la segunda parte de la funci�n
+        194 => "11010100", -- 212
+        -- Palabra 7: inicia en 112
+        191 => "00001011", -- Carga el indice del comienzo de la palabra(j)
+        192 => "00000001",
+        193 => "10000000", -- 128 (j)
+        194 => "00001111", -- JUMP a la segunda parte de la funci�n
+        195 => "11010100", -- 212
+        -- Palabra 8: inicia en 112
+        196 => "00001011", -- Carga el indice del comienzo de la palabra(j)
+        197 => "00000001",
+        198 => "10010000", -- 144 (j)
+        199 => "00001111", -- JUMP a la segunda parte de la funci�n
+        200 => "11010100", -- 212
         --- Segunda Parte: Comienza a cargar la frase a la ram
         --- Inicializacion de variables
-        163 => "00001011", -- i = 0
-        164 => "00000000", -- RegsABCD(0)
-        165 => "00000000", -- 0
-        166 => "00001011", -- step = 1
-        167 => "00000010", -- RegsABCD(2)
-        168 => "00000001", -- 1
-        169 => "00001011", -- size= 32
-        170 => "00000011", -- RegsABCD(3)
-        171 => "00100000", -- 32
-        172 => "00001111", -- JUMP a la tercera parte
-        173 => "10110111", -- 183
+        201 => "00001011", -- i = 0
+        202 => "00000000", -- RegsABCD(0)
+        203 => "00000000", -- 0
+        204 => "00001011", -- step = 1
+        205 => "00000010", -- RegsABCD(2)
+        206 => "00000001", -- 1
+        207 => "00001011", -- size= 32
+        208 => "00000011", -- RegsABCD(3)
+        209 => "00100000", -- 32
+        210 => "00001111", -- JUMP a la tercera parte
+        211 => "11011101", -- 221
         --- Segunda Parte: Comienza a cargar la palabra a la ram
         --- Inicializacion de variables
-        174 => "00001011", -- i = 0
-        175 => "00000000", -- RegsABCD(0)
-        176 => "00000000", -- 0
-        177 => "00001011", -- step = 1
-        178 => "00000010", -- RegsABCD(2)
-        179 => "00000001", -- 1
-        180 => "00001011", -- size= 16
-        181 => "00000011", -- RegsABCD(3)
-        182 => "00010000", -- 16 (No necesita saltar a la tercera parteporque est�n adyacentes)
+        212 => "00001011", -- i = 0
+        213 => "00000000", -- RegsABCD(0)
+        214 => "00000000", -- 0
+        215 => "00001011", -- step = 1
+        216 => "00000010", -- RegsABCD(2)
+        217 => "00000001", -- 1
+        218 => "00001011", -- size= 16
+        219 => "00000011", -- RegsABCD(3)
+        220 => "00010000", -- 16 (No necesita saltar a la tercera parteporque est�n adyacentes)
         --- Tercera Parte: Ciclo para cargar la palabra o frase a la RAMdesde la ROM
-        183 => "00010100", -- ROM(j) to RAM(i)
-        184 => "00000000", -- dest ram i(RegsABCD(0))
-        185 => "00000001", -- orig rom j(RegsABCD(1))
-        186 => "00000111", -- Suma
-        187 => "00000010", -- i + step
-        188 => "00001110", -- Guarda el MBR en RegsABCD(0)(A)
-        189 => "00000000", -- i = i+1--
-        190 => "00000111", -- Suma
-        191 => "00010010", -- j + step
-        192 => "00001110", -- Guarda el MBR en RegsABCD(1)(B)
-        193 => "00000001", -- j = i+1
-        194 => "00001000", -- Resta
-        195 => "00000011", -- i-size
-        196 => "00010000", -- Brach if i - size != 0
-        197 => "00001001",
-        198 => "10110111", -- Goto 183
+        221 => "00010100", -- ROM(j) to RAM(i)
+        222 => "00000000", -- dest ram i(RegsABCD(0))
+        223 => "00000001", -- orig rom j(RegsABCD(1))
+        224 => "00000111", -- Suma
+        225 => "00000010", -- i + step
+        226 => "00001110", -- Guarda el MBR en RegsABCD(0)(A)
+        227 => "00000000", -- i = i+1--
+        228 => "00000111", -- Suma
+        229 => "00010010", -- j + step
+        230 => "00001110", -- Guarda el MBR en RegsABCD(1)(B)
+        231 => "00000001", -- j = i+1
+        232 => "00001000", -- Resta
+        233 => "00000011", -- i-size
+        234 => "00010000", -- Brach if i - size != 0
+        235 => "00001001",
+        236 => "11011101", -- Goto 221
         OTHERS => ("11111111")
     );
     -----------------------------------Se�ales para control del Display
