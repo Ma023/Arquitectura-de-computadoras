@@ -594,12 +594,12 @@ BEGIN
                     DOWNTO 0);
                 IF (izq = '1') THEN
                     IF (contaux = 97) THEN
-                        contaux <= 102;
+                        contaux <= 104;
                     ELSE
                         contaux <= contaux - 1;
                     END IF;
                 ELSIF (der = '1') THEN
-                    IF (contaux = 102) THEN
+                    IF (contaux = 104) THEN
                         contaux <= 97;
                     ELSE
                         contaux <= contaux + 1;
@@ -794,7 +794,7 @@ BEGIN
                                 ELSE
                                     juego <= lose;
                                 END IF;
-                            WHEN OTHERS =>
+                            WHEN 102 =>
                                 IF (auxV /= "000") THEN
                                     IF (auxP2 = "0110001001100001011011010110001001101001001000000010000000100000001000000010000000100000") THEN -- bambi
                                         juego <= win;
@@ -806,6 +806,75 @@ BEGIN
                                             contaux <= 97;
                                         ELSIF (auxP = "01100010") THEN -- b
                                             auxP1(63 DOWNTO 56) <= "01100010";
+                                            auxP <= "11111111";
+                                            contaux <= 97;
+                                        ELSIF (auxP = "11111111") THEN
+                                            auxP1 <= auxP1;
+                                        ELSE
+                                            auxP <= "11111111";
+                                            auxP1 <= auxP1;
+                                            auxV <= to_stdlogicvector(to_bitvector(auxV) SRL 1);
+                                            contaux <= 97;
+                                        END IF;
+                                        line1Sig(127 DOWNTO 40) <= auxP1;
+
+                                    END IF;
+                                ELSE
+                                    juego <= lose;
+                                END IF;
+                            WHEN 103 =>
+                                IF (auxV /= "000") THEN
+                                    IF (auxP2 = "0110011001110010011010010110010101101110011001000010000000100000001000000010000000100000") THEN -- friend
+                                        juego <= win;
+                                        
+                                    ELSE
+                                        IF (auxP = "01100110") THEN -- f
+                                            auxP1(87 DOWNTO 80) <= "01100110";
+                                            auxP <= "11111111";
+                                            contaux <= 97;
+                                        ELSIF (auxP = "01101001") THEN -- i
+                                            auxP1(71 DOWNTO 64) <= "01101001";
+                                            auxP <= "11111111";
+                                            contaux <= 97;
+                                        ELSIF (auxP = "01101110") THEN -- n
+                                            auxP1(55 DOWNTO 48) <= "01101110";
+                                            auxP <= "11111111";
+                                            contaux <= 97;
+                                        ELSIF (auxP = "11111111") THEN
+                                            auxP1 <= auxP1;
+                                        ELSE
+                                            auxP <= "11111111";
+                                            auxP1 <= auxP1;
+                                            auxV <= to_stdlogicvector(to_bitvector(auxV) SRL 1);
+                                            contaux <= 97;
+                                        END IF;
+                                        line1Sig(127 DOWNTO 40) <= auxP1;
+
+                                    END IF;
+                                ELSE
+                                    juego <= lose;
+                                END IF;
+
+                            WHEN OTHERS =>
+                                IF (auxV /= "000") THEN
+                                    IF (auxP2 = "0110001101101111011011010111000001110101011101000110010101110010001000000010000000100000") THEN -- computer
+                                        juego <= win;
+                                        
+                                    ELSE
+                                        IF (auxP = "01101111") THEN -- o
+                                            auxP1(79 DOWNTO 72) <= "01101111";
+                                            auxP <= "11111111";
+                                            contaux <= 97;
+                                        ELSIF (auxP = "01101101") THEN -- m
+                                            auxP1(71 DOWNTO 64) <= "01101101";
+                                            auxP <= "11111111";
+                                            contaux <= 97;
+                                        ELSIF (auxP = "01110100") THEN -- t
+                                            auxP1(47 DOWNTO 40) <= "01110100";
+                                            auxP <= "11111111";
+                                            contaux <= 97;
+                                        ELSIF (auxP = "01100101") THEN -- e
+                                            auxP1( 39 DOWNTO 32) <= "01100101";
                                             auxP <= "11111111";
                                             contaux <= 97;
                                         ELSIF (auxP = "11111111") THEN
