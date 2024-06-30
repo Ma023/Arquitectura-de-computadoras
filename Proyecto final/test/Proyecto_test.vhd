@@ -730,7 +730,7 @@ BEGIN
                                 ELSE
                                     juego <= lose;
                                 END IF;
-                            WHEN OTHERS =>
+                            WHEN 101 =>
                                 IF (auxV /= "000") THEN
                                     IF (auxP2 = "0111010101101110011001000110010101110010011100110111010001100001011011100110010000100000") THEN -- understand
                                         juego <= win;
@@ -762,6 +762,32 @@ BEGIN
                                     juego <= lose;
                                 END IF;
                             END CASE;
+                            WHEN 102 =>
+                            IF (auxV /= "000") THEN
+                                IF (auxP2 = "0110001001100001011011010110001001101001011100110111010001100001011011100110010000100000") THEN -- understand
+                                    juego <= win;
+                                ELSE
+                                    IF (auxP = "01100001") THEN -- a
+                                        auxP1(79 DOWNTO 72) <= "01100001";
+                                        auxP <= "11111111";
+                                        contaux <= 97;
+                                    ELSIF (auxP = "01100010") THEN -- b
+                                        auxP1(63 DOWNTO 56) <= "01100010";
+                                        auxP <= "11111111";
+                                        contaux <= 97;
+                                    ELSIF (auxP = "11111111") THEN
+                                        auxP1 <= auxP1;
+                                    ELSE
+                                        auxP <= "11111111";
+                                        auxP1 <= auxP1;
+                                        auxV <= to_stdlogicvector(to_bitvector(auxV) SRL 1);
+                                        contaux <= 97;
+                                    END IF;
+                                    line1Sig(127 DOWNTO 40) <= auxP1;
+                                END IF;
+                            ELSE
+                                juego <= lose;
+                            END IF;
                             line2Sig(119 DOWNTO 112) <= STD_LOGIC_VECTOR(to_unsigned(contaux, IR'length));
                             
                             WHEN win =>
