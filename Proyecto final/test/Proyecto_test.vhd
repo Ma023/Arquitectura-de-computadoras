@@ -734,8 +734,8 @@ BEGIN
                                                 <= STD_LOGIC_VECTOR(to_unsigned(contaux, IR'length));
                                             WHEN win =>
                                                 line2Sig(119 DOWNTO 56) <=
-                                                "0100011101000001010011100100000101010011010101000100010111110101";--PalabraGANASTE
-                                            WHEN lose => line2Sig(119 DOWNTO 48) <= "010000010100100001001111010100100100001101000001010001000100111111101111";--Palabra AHORCADO
+                                                "0111011101101001011011100010000100100001001000010010000100100001";--PalabraGANASTE
+                                            WHEN lose => line2Sig(119 DOWNTO 48) <= "011011000110111101110011011001010010000100100001001000010010000100100001";--Palabra AHORCADO
                                             END CASE;
                                             IF (izq = '1') THEN
                                                 IF (contaux = 97) THEN
