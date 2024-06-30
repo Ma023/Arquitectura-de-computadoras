@@ -761,33 +761,36 @@ BEGIN
                                 ELSE
                                     juego <= lose;
                                 END IF;
-                            END CASE;
-                            WHEN 102 =>
-                            IF (auxV /= "000") THEN
-                                IF (auxP2 = "0110001001100001011011010110001001101001011100110111010001100001011011100110010000100000") THEN -- bambi
-                                    juego <= win;
-                                ELSE
-                                    IF (auxP = "01100001") THEN -- a
-                                        auxP1(79 DOWNTO 72) <= "01100001";
-                                        auxP <= "11111111";
-                                        contaux <= 97;
-                                    ELSIF (auxP = "01100010") THEN -- b
-                                        auxP1(63 DOWNTO 56) <= "01100010";
-                                        auxP <= "11111111";
-                                        contaux <= 97;
-                                    ELSIF (auxP = "11111111") THEN
-                                        auxP1 <= auxP1;
+                                WHEN OTHERS =>
+                                    IF (auxV /= "000") THEN
+                                        IF (auxP2 = "0110001001100001011011010110001001101001011100110111010001100001011011100110010000100000") THEN -- bambi
+                                            juego <= win;
+                                        
+                                        ELSE
+                                            IF (auxP = "01100001") THEN -- a
+                                                auxP1(79 DOWNTO 72) <= "01100001";
+                                                auxP <= "11111111";
+                                                contaux <= 97;
+                                            ELSIF (auxP = "01100010") THEN -- b
+                                                auxP1(63 DOWNTO 56) <= "01100010";
+                                                auxP <= "11111111";
+                                                contaux <= 97;
+                                            ELSIF (auxP = "11111111") THEN
+                                                auxP1 <= auxP1;
+                                            ELSE
+                                                auxP <= "11111111";
+                                                auxP1 <= auxP1;
+                                                auxV <= to_stdlogicvector(to_bitvector(auxV) SRL 1);
+                                                contaux <= 97;
+                                            END IF;
+                                            line1Sig(127 DOWNTO 40) <= auxP1;
+                                        END IF;
+                                    
                                     ELSE
-                                        auxP <= "11111111";
-                                        auxP1 <= auxP1;
-                                        auxV <= to_stdlogicvector(to_bitvector(auxV) SRL 1);
-                                        contaux <= 97;
+                                        juego <= lose;
                                     END IF;
-                                    line1Sig(127 DOWNTO 40) <= auxP1;
-                                END IF;
-                            ELSE
-                                juego <= lose;
-                            END IF;
+                                    
+                                END CASE;
                             line2Sig(119 DOWNTO 112) <= STD_LOGIC_VECTOR(to_unsigned(contaux, IR'length));
                             
                             WHEN win =>
@@ -797,7 +800,7 @@ BEGIN
                             WHEN lose => line2Sig(119 DOWNTO 48) <= 
                             "011011000110111101110011011001010010000100100001001000010010000100100001";--Palabra lose!!!
                             
-                            END CASE;
+                        END CASE;
                             
                             IF (izq = '1') THEN
                                 IF (contaux = 97) THEN
