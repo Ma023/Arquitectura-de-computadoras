@@ -144,7 +144,7 @@ ARCHITECTURE programa OF practica IS
         112 => "01100010", -- b
         113 => "01011111", -- _
         114 => "01101101", -- m
-        115 => "01100101", -- _
+        115 => "01011111", -- _
         116 => "01101001", -- i
         117 => "00100000", --
         118 => "00100000", --
@@ -376,19 +376,22 @@ BEGIN
         IF (mov_pc = '1') THEN
             CASE (contaux2) IS
                 WHEN 97 =>
-                    PC <= 117;
+                    PC <= 133;
                     estado <= Fetch;
                 WHEN 98 =>
-                    PC <= 122;
+                    PC <= 138;
                     estado <= Fetch;
                 WHEN 99 =>
-                    PC <= 127;
+                    PC <= 143;
                     estado <= Fetch;
                 WHEN 100 =>
-                    PC <= 132;
+                    PC <= 148;
+                    estado <= Fetch;
+                WHEN 101 =>
+                    PC <= 153;
                     estado <= Fetch;
                 WHEN OTHERS =>
-                    PC <= 137;
+                    PC <= 158;
                     estado <= Fetch;
             END CASE;
         END IF;
@@ -557,12 +560,12 @@ BEGIN
                     DOWNTO 0);
                 IF (izq = '1') THEN
                     IF (contaux = 97) THEN
-                        contaux <= 101;
+                        contaux <= 102;
                     ELSE
                         contaux <= contaux - 1;
                     END IF;
                 ELSIF (der = '1') THEN
-                    IF (contaux = 101) THEN
+                    IF (contaux = 102) THEN
                         contaux <= 97;
                     ELSE
                         contaux <= contaux + 1;
