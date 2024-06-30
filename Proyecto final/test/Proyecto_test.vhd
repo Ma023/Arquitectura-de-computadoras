@@ -699,20 +699,17 @@ BEGIN
                                                     IF (auxP2 = "0111011001100101011011100111010001101001011011000110000101100100011011110111001000100000") THEN -- understand
                                                         juego <= win;
                                                     ELSE
-                                                        IF (auxP = "01100101") THEN -- e
-                                                            auxP1(79 DOWNTO 72) <= "01100101";
+                                                        IF (auxP = "01101110") THEN -- n
+                                                            auxP1(79 DOWNTO 72) <= "01101110";
+                                                            auxP1(23 DOWNTO 16) <= "01101110"
                                                             auxP <= "11111111";
                                                             contaux <= 97;
-                                                        ELSIF (auxP = "01101001") THEN -- i
-                                                            auxP1(55 DOWNTO 48) <= "01101001";
+                                                        ELSIF (auxP = "01110010") THEN -- r
+                                                            auxP1(55 DOWNTO 48) <= "01110010";
                                                             auxP <= "11111111";
                                                             contaux <= 97;
-                                                        ELSIF (auxP = "01100001") THEN -- a
-                                                            auxP1(39 DOWNTO 32) <= "01100001";
-                                                            auxP <= "11111111";
-                                                            contaux <= 97;
-                                                        ELSIF (auxP = "01101111") THEN -- o
-                                                            auxP1(23 DOWNTO 16) <= "01101111";
+                                                        ELSIF (auxP = "01110100") THEN -- t
+                                                            auxP1(39 DOWNTO 32) <= "01110100";
                                                             auxP <= "11111111";
                                                             contaux <= 97;
                                                         ELSIF (auxP = "11111111") THEN
