@@ -140,6 +140,8 @@ ARCHITECTURE programa OF practica IS
         109 => "00100000", --
         110 => "00100000", --
         111 => "00100000", --
+
+
         -- Inicializacion de variables
         -- Inicio: inicia en 0
         112 => "00001011", -- Carga el indice del comienzo de la frase(j)
@@ -737,8 +739,8 @@ BEGIN
                                                 <= STD_LOGIC_VECTOR(to_unsigned(contaux, IR'length));
                                             WHEN win =>
                                                 line2Sig(119 DOWNTO 56) <=
-                                                "0111011101101001011011100010000100100001001000010010000100100001";--Palabra win!!!
-                                            WHEN lose => line2Sig(119 DOWNTO 48) <= "011011000110111101110011011001010010000100100001001000010010000100100001";--Palabra lose!!!
+                                                "0111011101101001011011100010000100100001001000010010000100100001";--win!!!
+                                            WHEN lose => line2Sig(119 DOWNTO 48) <= "011011000110111101110011011001010010000100100001001000010010000100100001";--lose!!!
                                             END CASE;
                                             IF (izq = '1') THEN
                                                 IF (contaux = 97) THEN
@@ -761,169 +763,169 @@ BEGIN
                                         END CASE;
                                     END IF;
                                 END PROCESS ahor;
-                                regALU : PROCESS (IR, REAUX, REAUX2) -- ALU
-                                    VARIABLE shift : STD_LOGIC_VECTOR(15 DOWNTO 0);
-                                    VARIABLE desplazamientos : INTEGER;
-                                BEGIN
-                                    CASE IR IS
-                                        WHEN "00000001" => ACC <= STD_LOGIC_VECTOR(NOT REAUX);
-                                        WHEN "00000010" => ACC <= STD_LOGIC_VECTOR(REAUX AND
-                                            REAUX2);
-                                        WHEN "00000011" => ACC <= STD_LOGIC_VECTOR((NOT REAUX) +
-                                            1);
-                                        WHEN "00000100" => ACC <= STD_LOGIC_VECTOR(REAUX OR
-                                            REAUX2);
-                                        WHEN "00000111" => ACC <= STD_LOGIC_VECTOR(REAUX + REAUX2);
-                                            --S U M A
-                                            veriBandera(ACC, STD_LOGIC_VECTOR(REAUX), STD_LOGIC_VECTOR(REAUX2), bandera
-                                            );
-                                        WHEN "00001000" => -- REAUX3 <= REAUX-REAUX2;
-                                            --R E S T A
-                                            REAUX3(14 DOWNTO 0) <= (NOT REAUX2(14 DOWNTO 0)) +
-                                            1; --complemento a 2
-                                            IF ((REAUX(14) XOR REAUX3(14)) = '1') THEN
-                                                ACC <= STD_LOGIC_VECTOR(REAUX - REAUX2);
-                                                veriBandera(ACC, STD_LOGIC_VECTOR(REAUX), STD_LOGIC_VECTOR(REAUX2), bandera
-                                                );
+regALU : PROCESS (IR, REAUX, REAUX2) -- ALU
+    VARIABLE shift : STD_LOGIC_VECTOR(15 DOWNTO 0);
+    VARIABLE desplazamientos : INTEGER;
+BEGIN
+    CASE IR IS
+        WHEN "00000001" => ACC <= STD_LOGIC_VECTOR(NOT REAUX);
+        WHEN "00000010" => ACC <= STD_LOGIC_VECTOR(REAUX AND
+            REAUX2);
+        WHEN "00000011" => ACC <= STD_LOGIC_VECTOR((NOT REAUX) +
+            1);
+        WHEN "00000100" => ACC <= STD_LOGIC_VECTOR(REAUX OR
+            REAUX2);
+        WHEN "00000111" => ACC <= STD_LOGIC_VECTOR(REAUX + REAUX2);
+            --S U M A
+            veriBandera(ACC, STD_LOGIC_VECTOR(REAUX), STD_LOGIC_VECTOR(REAUX2), bandera
+            );
+        WHEN "00001000" => -- REAUX3 <= REAUX-REAUX2;
+            --R E S T A
+            REAUX3(14 DOWNTO 0) <= (NOT REAUX2(14 DOWNTO 0)) +
+            1; --complemento a 2
+            IF ((REAUX(14) XOR REAUX3(14)) = '1') THEN
+                ACC <= STD_LOGIC_VECTOR(REAUX - REAUX2);
+                veriBandera(ACC, STD_LOGIC_VECTOR(REAUX), STD_LOGIC_VECTOR(REAUX2), bandera
+                );
+            ELSE
+                ACC <= STD_LOGIC_VECTOR(((NOT
+                    REAUX) + 1) + REAUX2);
+                REAUX3 <= REAUX + ((NOT REAUX2) + 1);
+                veriBandera(STD_LOGIC_VECTOR(REAUX3), STD_LOGIC_VECTOR(REAUX), STD_LOGIC_VECTOR((NOT REAUX2) + 1), bandera);
+            END IF;
+        WHEN OTHERS => ACC <= (OTHERS => '0');
+    END CASE;
+END PROCESS;
+                        contLCD : PROCESS (clk, reset, line1Sig, line2Sig, dispmode) -- Interfaz de laLCD
+                            VARIABLE count : INTEGER := 0;
+                        BEGIN
+                            IF (Reset = '0') THEN
+                                state <= power_up;
+                            ELSIF (clk'EVENT AND clk = '1') THEN
+                                CASE state IS
+                                    WHEN power_up => --wait 50 ms to ensure Vddhas risen and required LCD wait is met
+                                        IF (count < (50000 * freq)) THEN --wait50 ms
+                                            count := count + 1;
+                                            state <= power_up;
+                                        ELSE --power-up complete
+                                            count := 0;
+                                            RS <= '0';
+                                            RW <= '0';
+                                            DB <= "00110000";
+                                            state <= initialize;
+                                        END IF;
+                                    WHEN initialize => --cycle throughinitialization sequence
+                                        count := count + 1;
+                                        IF (count < (10 * freq)) THEN --function set
+                                            DB <= "00111100"; --2-linemode, display on
+                                            E <= '1';
+                                            state <= initialize;
+                                        ELSIF (count < (60 * freq)) THEN --wait50 us
+                                            DB <= "00000000";
+                                            E <= '0';
+                                            state <= initialize;
+                                        ELSIF (count < (70 * freq)) THEN --display on/off control
+                                            DB <= "00001100"; --displayon, cursor off, blink off
+                                            E <= '1';
+                                            state <= initialize;
+                                        ELSIF (count < (120 * freq)) THEN --wait50 us
+                                            DB <= "00000000";
+                                            E <= '0';
+                                            state <= initialize;
+                                        ELSIF (count < (130 * freq)) THEN --display clear
+                                            DB <= "00000001";
+                                            E <= '1';
+                                            state <= initialize;
+                                        ELSIF (count < (2130 * freq)) THEN --wait2 ms
+                                            DB <= "00000000";
+                                            E <= '0';
+                                            state <= initialize;
+                                        ELSIF (count < (2140 * freq)) THEN --entrymode set
+                                            DB <= "00000110"; --incrementmode, entire shift off
+                                            E <= '1';
+                                            state <= initialize;
+                                        ELSIF (count < (2200 * freq)) THEN --wait60 us
+                                            DB <= "00000000";
+                                            E <= '0';
+                                            state <= initialize;
+                                        ELSE --initialization complete
+                                            count := 0;
+                                            state <= RESETLINE;
+                                        END IF;
+                                    WHEN RESETLINE =>
+                                        ptr <= 16;
+                                        IF line = '1' THEN
+                                            DB <= "10000000";
+                                            RS <= '0';
+                                            RW <= '0';
+                                            count := 0;
+                                            state <= send;
+                                        ELSE
+                                            DB <= "11000000";
+                                            RS <= '0';
+                                            RW <= '0';
+                                            count := 0;
+                                            state <= send;
+                                        END IF;
+                                    WHEN line1 =>
+                                        line <= '1';
+                                        IF dispmode = '1' AND (ptr = 6 OR ptr = 7
+                                            ) THEN
+                                            IF ptr = 7 THEN
+                                                DB <= "0011" & bcdsig(7
+                                                    DOWNTO 4);
                                             ELSE
-                                                ACC <= STD_LOGIC_VECTOR(((NOT
-                                                    REAUX) + 1) + REAUX2);
-                                                REAUX3 <= REAUX + ((NOT REAUX2) + 1);
-                                                veriBandera(STD_LOGIC_VECTOR(REAUX3), STD_LOGIC_VECTOR(REAUX), STD_LOGIC_VECTOR((NOT REAUX2) + 1), bandera);
+                                                DB <= "0011" & bcdsig(3
+                                                    DOWNTO 0);
                                             END IF;
-                                        WHEN OTHERS => ACC <= (OTHERS => '0');
-                                    END CASE;
-                                END PROCESS;
-                                contLCD : PROCESS (clk, reset, line1Sig, line2Sig, dispmode) -- Interfaz de laLCD
-                                    VARIABLE count : INTEGER := 0;
-                                BEGIN
-                                    IF (Reset = '0') THEN
-                                        state <= power_up;
-                                    ELSIF (clk'EVENT AND clk = '1') THEN
-                                        CASE state IS
-                                            WHEN power_up => --wait 50 ms to ensure Vddhas risen and required LCD wait is met
-                                                IF (count < (50000 * freq)) THEN --wait50 ms
-                                                    count := count + 1;
-                                                    state <= power_up;
-                                                ELSE --power-up complete
-                                                    count := 0;
-                                                    RS <= '0';
-                                                    RW <= '0';
-                                                    DB <= "00110000";
-                                                    state <= initialize;
-                                                END IF;
-                                            WHEN initialize => --cycle throughinitialization sequence
-                                                count := count + 1;
-                                                IF (count < (10 * freq)) THEN --function set
-                                                    DB <= "00111100"; --2-linemode, display on
-                                                    E <= '1';
-                                                    state <= initialize;
-                                                ELSIF (count < (60 * freq)) THEN --wait50 us
-                                                    DB <= "00000000";
-                                                    E <= '0';
-                                                    state <= initialize;
-                                                ELSIF (count < (70 * freq)) THEN --display on/off control
-                                                    DB <= "00001100"; --displayon, cursor off, blink off
-                                                    E <= '1';
-                                                    state <= initialize;
-                                                ELSIF (count < (120 * freq)) THEN --wait50 us
-                                                    DB <= "00000000";
-                                                    E <= '0';
-                                                    state <= initialize;
-                                                ELSIF (count < (130 * freq)) THEN --display clear
-                                                    DB <= "00000001";
-                                                    E <= '1';
-                                                    state <= initialize;
-                                                ELSIF (count < (2130 * freq)) THEN --wait2 ms
-                                                    DB <= "00000000";
-                                                    E <= '0';
-                                                    state <= initialize;
-                                                ELSIF (count < (2140 * freq)) THEN --entrymode set
-                                                    DB <= "00000110"; --incrementmode, entire shift off
-                                                    E <= '1';
-                                                    state <= initialize;
-                                                ELSIF (count < (2200 * freq)) THEN --wait60 us
-                                                    DB <= "00000000";
-                                                    E <= '0';
-                                                    state <= initialize;
-                                                ELSE --initialization complete
-                                                    count := 0;
-                                                    state <= RESETLINE;
-                                                END IF;
-                                            WHEN RESETLINE =>
-                                                ptr <= 16;
-                                                IF line = '1' THEN
-                                                    DB <= "10000000";
-                                                    RS <= '0';
-                                                    RW <= '0';
-                                                    count := 0;
-                                                    state <= send;
+                                        ELSE
+                                            DB <= line1Sig(ptr * 8 + 7 DOWNTO
+                                                ptr * 8);
+                                        END IF;
+                                        RS <= '1';
+                                        RW <= '0';
+                                        count := 0;
+                                        line <= '1';
+                                        state <= send;
+                                    WHEN line2 =>
+                                        line <= '0';
+                                        DB <= line2Sig(ptr * 8 + 7 DOWNTO ptr * 8);
+                                        RS <= '1';
+                                        RW <= '0';
+                                        count := 0;
+                                        state <= send;
+                                    WHEN send => --send instruction to lcd
+                                        IF (count < (50 * freq)) THEN --do notexit for 50us
+                                            IF (count < freq) THEN --negative enable
+                                                E <= '0';
+                                            ELSIF (count < (14 * freq)) THEN --positive enable half-cycle
+                                                E <= '1';
+                                            ELSIF (count < (27 * freq)) THEN --negative enable half-cycle
+                                                E <= '0';
+                                            END IF;
+                                            count := count + 1;
+                                            state <= send;
+                                        ELSE
+                                            count := 0;
+                                            IF line = '1' THEN
+                                                IF ptr = 0 THEN
+                                                    line <= '0';
+                                                    state <= resetline;
                                                 ELSE
-                                                    DB <= "11000000";
-                                                    RS <= '0';
-                                                    RW <= '0';
-                                                    count := 0;
-                                                    state <= send;
+                                                    ptr <= ptr - 1;
+                                                    state <= line1;
                                                 END IF;
-                                            WHEN line1 =>
-                                                line <= '1';
-                                                IF dispmode = '1' AND (ptr = 6 OR ptr = 7
-                                                    ) THEN
-                                                    IF ptr = 7 THEN
-                                                        DB <= "0011" & bcdsig(7
-                                                            DOWNTO 4);
-                                                    ELSE
-                                                        DB <= "0011" & bcdsig(3
-                                                            DOWNTO 0);
-                                                    END IF;
+                                            ELSE
+                                                IF ptr = 0 THEN
+                                                    line <= '1';
+                                                    state <= resetline;
                                                 ELSE
-                                                    DB <= line1Sig(ptr * 8 + 7 DOWNTO
-                                                        ptr * 8);
+                                                    ptr <= ptr - 1;
+                                                    state <= line2;
                                                 END IF;
-                                                RS <= '1';
-                                                RW <= '0';
-                                                count := 0;
-                                                line <= '1';
-                                                state <= send;
-                                            WHEN line2 =>
-                                                line <= '0';
-                                                DB <= line2Sig(ptr * 8 + 7 DOWNTO ptr * 8);
-                                                RS <= '1';
-                                                RW <= '0';
-                                                count := 0;
-                                                state <= send;
-                                            WHEN send => --send instruction to lcd
-                                                IF (count < (50 * freq)) THEN --do notexit for 50us
-                                                    IF (count < freq) THEN --negative enable
-                                                        E <= '0';
-                                                    ELSIF (count < (14 * freq)) THEN --positive enable half-cycle
-                                                        E <= '1';
-                                                    ELSIF (count < (27 * freq)) THEN --negative enable half-cycle
-                                                        E <= '0';
-                                                    END IF;
-                                                    count := count + 1;
-                                                    state <= send;
-                                                ELSE
-                                                    count := 0;
-                                                    IF line = '1' THEN
-                                                        IF ptr = 0 THEN
-                                                            line <= '0';
-                                                            state <= resetline;
-                                                        ELSE
-                                                            ptr <= ptr - 1;
-                                                            state <= line1;
-                                                        END IF;
-                                                    ELSE
-                                                        IF ptr = 0 THEN
-                                                            line <= '1';
-                                                            state <= resetline;
-                                                        ELSE
-                                                            ptr <= ptr - 1;
-                                                            state <= line2;
-                                                        END IF;
-                                                    END IF;
-                                                END IF;
-                                        END CASE;
-                                    END IF;
-                                END PROCESS contLCD;
-        END programa;
+                                            END IF;
+                                        END IF;
+                                END CASE;
+                            END IF;
+                        END PROCESS contLCD;
+END programa;
