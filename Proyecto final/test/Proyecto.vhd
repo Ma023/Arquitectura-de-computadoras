@@ -26,36 +26,36 @@ ARCHITECTURE programa OF practica IS
         0 => "00100000", --
         1 => "00100000", --
         2 => "00100000", --
-        3 => "00100000", --
-        4 => "01000001", -- A
-        5 => "01001000", -- H
-        6 => "01001111", -- O
-        7 => "01010010", -- R
-        8 => "01000011", -- C
-        9 => "01000001", -- A
-        10 => "01000100", -- D
-        11 => "01001111", -- O
-        12 => "00100000", --
+        3 => "00100000", -- 
+        4 => "01000001", -- A       W
+        5 => "01001000", -- H       E
+        6 => "01001111", -- O       L
+        7 => "01010010", -- R       C
+        8 => "01000011", -- C       O
+        9 => "01000001", -- A       M
+        10 => "01000100", -- D      E
+        11 => "01001111", -- O      !
+        12 => "00100000", -- 
         13 => "00100000", --
         14 => "00100000", --
-        15 => "00100000", --
-        16 => "01010011", -- S
-        17 => "01100101", -- e
-        18 => "01101100", -- l
-        19 => "00101110", -- .
-        20 => "00100000", --
-        21 => "01010000", -- P
-        22 => "01100001", -- a
-        23 => "01101100", -- l
-        24 => "00101110", -- .
-        25 => "00111010", -- :
+        15 => "00100000", -- 
+        16 => "01010011", -- S      S
+        17 => "01100101", -- e      E  
+        18 => "01101100", -- l      L
+        19 => "00101110", -- .      
+        20 => "00100000", --        
+        21 => "01010000", -- P      W
+        22 => "01100001", -- a      O
+        23 => "01101100", -- l      R
+        24 => "00101110", -- .      D
+        25 => "00111010", -- :      :
         26 => "00100000", --
-        27 => "00100000", -- a (hace referencia al lugar donde semostrar� las opciones)
+        27 => "00100000", -- a (hace referencia al número de palabra)
         28 => "00100000", --
         29 => "00100000", --
         30 => "00100000", --
         31 => "00100000", --
-        --Palabra : e l e c t r i c i d a d
+        --Palabra 1: e l e c t r i c i d a d
         32 => "01100101", -- e
         33 => "01101100", -- l
         34 => "01011111", -- _
@@ -195,37 +195,37 @@ ARCHITECTURE programa OF practica IS
         159 => "00001011", -- Carga el indice del comienzo de la frase(j)
         160 => "00000001",
         161 => "00000000", -- 0 (j)
-        162 => "00001111", -- JUMP a la segunda parte de la funci�n
+        162 => "00001111", -- JUMP a la segunda parte de la función
         163 => "11001100", -- 204
         -- Palabra 1: inicia en 32
         164 => "00001011", -- Carga el indice del comienzo de la palabra(j)
         165 => "00000001",
         166 => "00100000", -- 32 (j)
-        167 => "00001111", -- JUMP a la segunda parte de la funci�n
+        167 => "00001111", -- JUMP a la segunda parte de la función
         168 => "11010111", -- 215
         -- Palabra 2: inicia en 48
         169 => "00001011", -- Carga el indice del comienzo de la palabra(j)
         170 => "00000001",
         171 => "00110000", -- 48 (j)
-        172 => "00001111", -- JUMP a la segunda parte de la funci�n
+        172 => "00001111", -- JUMP a la segunda parte de la función
         173 => "11010111", -- 215
         -- Palabra 3: inicia en 64
         174 => "00001011", -- Carga el indice del comienzo de la palabra(j)
         175 => "00000001",
         176 => "01000000", -- 64 (j)
-        177 => "00001111", -- JUMP a la segunda parte de la funci�n
+        177 => "00001111", -- JUMP a la segunda parte de la función
         178 => "11010111", -- 215
         -- Palabra 4: inicia en 80
         179 => "00001011", -- Carga el indice del comienzo de la palabra(j)
         180 => "00000001",
         181 => "01010000", -- 80 (j)
-        182 => "00001111", -- JUMP a la segunda parte de la funci�n
+        182 => "00001111", -- JUMP a la segunda parte de la función
         183 => "11010111", -- 215
         -- Palabra 5: inicia en 96
         184 => "00001011", -- Carga el indice del comienzo de la palabra(j)
         185 => "00000001",
         186 => "01100000", -- 96 (j)
-        187 => "00001111", -- JUMP a la segunda parte de la funci�n
+        187 => "00001111", -- JUMP a la segunda parte de la función
         188 => "11010111", -- 215
         --- Palabra 6: inicia en 112
         189 => "00001011", -- Carga el indice del comienzo de la palabra(j)
@@ -270,7 +270,7 @@ ARCHITECTURE programa OF practica IS
         222 => "00000011", -- RegsABCD(3)
         223 => "00010000", -- 16 (RegsABCD(3))
         --- Tercera Parte: Ciclo para cargar la palabra o frase a la RAMdesde la ROM
-        224 => "11100000", -- ROM(j) to RAM(i)
+        224 => "00010100", -- ROM(j) to RAM(i)
         225 => "00000000", -- dest ram i(RegsABCD(0))
         226 => "00000001", -- orig rom j(RegsABCD(1))
         227 => "00000111", -- Suma
@@ -285,7 +285,7 @@ ARCHITECTURE programa OF practica IS
         236 => "00000011", -- i-size
         237 => "00010000", -- Brach if i - size != 0
         238 => "00001001",
-        239 => "11100000", -- 224
+        239 => "11100000", -- Go to 224
         OTHERS => ("11111111")
     );
     -----------------------------------Se�ales para control del Display
@@ -316,10 +316,10 @@ ARCHITECTURE programa OF practica IS
     CONSTANT freq : INTEGER := 133; --system clock frequency in MHz
     SIGNAL ptr : NATURAL RANGE 0 TO 16 := 15; -- To keep track of what character weare up to
     SIGNAL line : STD_LOGIC := '1';
-    SIGNAL line1Sig : STD_LOGIC_VECTOR(127 DOWNTO 0); -- Guarda lo que se muestra en la linea1 de la LCD
-    SIGNAL line2Sig : STD_LOGIC_VECTOR(127 DOWNTO 0); -- Guarda lo que se muestra en la linea2 de la LCD
-    SIGNAL contaux, contaux2 : INTEGER := 97;
-    SIGNAL mov_pc : STD_LOGIC := '0'; -- Se�al auxiliar para poder controlar el PCdesde el juego
+    SIGNAL line1Sig : STD_LOGIC_VECTOR(127 DOWNTO 0) := (others => '0'); -- Guarda lo que se muestra en la linea1 de la LCD
+    SIGNAL line2Sig : STD_LOGIC_VECTOR(127 DOWNTO 0) := (others => '0'); -- Guarda lo que se muestra en la linea2 de la LCD
+    SIGNAL contaux, contaux2 : INTEGER := 97; -- 
+    SIGNAL mov_pc : STD_LOGIC := '0'; -- Señal auxiliar para poder controlar el PC desde el juego
     SIGNAL auxV : STD_LOGIC_VECTOR(2 DOWNTO 0); -- Guarda las vidas que tiene eljugador
     SIGNAL auxP : STD_LOGIC_VECTOR(7 DOWNTO 0) := "11111111"; -- Guarda la letraseleccionada por el usuario
     SIGNAL auxP1, auxP2 : STD_LOGIC_VECTOR(87 DOWNTO 0); -- Se�ales para la verificacion de la palabra
@@ -355,11 +355,15 @@ BEGIN
         bandera(0) <= '0';
     END IF;
 END veriBandera;
+
+
 BEGIN
+
 OSCInst0 : OSCH
 GENERIC MAP(NOM_FREQ => "44.33")
 PORT MAP(STDBY => '0', OSC => CLK, SEDSTDBY => OPEN);
 gen_clk_medio : PROCESS (CLK) --reduccion del clock de 44.33 MHz
+
 BEGIN
     IF (CLK'event AND CLK = '1') THEN
         IF (count_med < max_count_med) THEN
@@ -370,6 +374,7 @@ BEGIN
         END IF;
     END IF;
 END PROCESS gen_clk_medio;
+
 gen_clk_lett : PROCESS (CLK) --reduccion del clock de 44.33 MHz
 BEGIN
     IF (CLK'event AND CLK = '1') THEN
@@ -381,6 +386,7 @@ BEGIN
         END IF;
     END IF;
 END PROCESS gen_clk_lett;
+
 gen_clk_lett2 : PROCESS (CLK) --reduccion del clock de 44.33 MHz a 120 ms
 BEGIN
     IF (CLK'event AND CLK = '1') THEN
@@ -392,7 +398,9 @@ BEGIN
         END IF;
     END IF;
 END PROCESS gen_clk_lett2;
-dispmode <= RegsABCD(15)(0);
+
+-- dispmode <= RegsABCD(15)(0);
+dispmode <= '1';
 
 ControlUnit : PROCESS (Reset, PC, IR, CLK_lett, mov_pc)
 BEGIN
@@ -401,7 +409,6 @@ BEGIN
     IF (Reset = '0') THEN
         estado <= Fetch;
         flags <= "0000";
-        -- comp <= "000";
         IR <= (OTHERS => '0');
         REAUX <= (OTHERS => '0');
         REAUX2 <= (OTHERS => '0');
@@ -409,7 +416,6 @@ BEGIN
         RegsABCD <= (OTHERS => "0000000000000000");
         PC <= 159;
     ELSIF (CLK_lett'event AND CLK_lett = '1') THEN
-        -- elsif (CLK'event and CLK = '1' and IR /="11111111")then
         IF (mov_pc = '1') THEN
             CASE (contaux2) IS
                 WHEN 97 =>
@@ -434,8 +440,8 @@ BEGIN
                     PC <= 194;
                     estado <= Fetch;
                 WHEN OTHERS =>
-                PC <= 199;
-                estado <= Fetch;
+                    PC <= 199;
+                    estado <= Fetch;
             END CASE;
         END IF;
         CASE estado IS
@@ -445,7 +451,6 @@ BEGIN
                 estado <= Decode;
             WHEN Decode =>
                 IF (IR = "11111111") THEN
-                    PC <= PC;
                     estado <= Fetch;
                 ELSIF (IR = "00001011") THEN
                     -- Cargar Num a RegsABCD
@@ -454,52 +459,49 @@ BEGIN
                     estado <= Fetch;
                 ELSIF (IR = "00001100") THEN
                     -- Cargar Dato de ROM_prog a RegsABCD
-                    RegsABCD(to_integer(unsigned(MAR(7
-                    DOWNTO 4)))) <= "00000000" & ROM_program(to_integer(unsigned(MAR(1 DOWNTO 0))));
-                    estado <= Fetch;
+                    RegsABCD(to_integer(unsigned(MAR(7 DOWNTO 4)))) <= 
+                    "00000000" & ROM_program(to_integer(unsigned(MAR(1 DOWNTO 0))));
                     PC <= PC + 2;
+                    estado <= Fetch;
                 ELSIF (IR = "00001101") THEN
                     -- Copiar Registro(orig) a Registro(dest)
-                    RegsABCD(to_integer(unsigned(MAR(7
-                    DOWNTO 4)))) <= RegsABCD(to_integer(unsigned(MAR(3 DOWNTO 0))));
-                    estado <= Fetch;
+                    RegsABCD(to_integer(unsigned(MAR(7 DOWNTO 4)))) <= RegsABCD(to_integer(unsigned(MAR(3 DOWNTO 0))));
                     PC <= PC + 2;
+                    estado <= Fetch;
                 ELSIF (IR = "00001110") THEN
                     -- Copiar del MBR al Registro(dest)
                     RegsABCD(to_integer(unsigned(MAR))) <= MBR;
-                    estado <= Fetch;
                     PC <= PC + 2;
+                    estado <= Fetch;
                 ELSIF (IR = "00001111") THEN
                     -- Jump a una direccion
+                    PC <= to_integer(unsigned(MAR));  --Verificar si el jump se est{a ejecutando de manera correcta
                     estado <= Fetch;
-                    PC <= to_integer(unsigned(MAR));
                 ELSIF (IR = "00010000") THEN
                     -- Branch (jump con condicion)
-                    IF ((MAR(3 DOWNTO 0) XOR
-                        bandera) = "0000") THEN
-                        PC <=
-                            to_integer(unsigned(ROM_program(PC2)));
+                    IF ((MAR(3 DOWNTO 0) XOR bandera) = "0000") THEN
+                        PC <= to_integer(unsigned(ROM_program(PC2)));
                     ELSE
                         PC <= PC + 3;
                     END IF;
                     estado <= Fetch;
                 ELSIF (IR = "00010001") THEN
                     -- Comparador
+                    -- Instrucción del comparador pendiente
                 ELSIF (IR = "00010010") THEN
                     -- Escribir del MBR a la RAM
-                    RAM(to_integer(unsigned(MAR))) <=
-                    MBR;
+                    RAM(to_integer(unsigned(MAR))) <= MBR;
                     PC <= PC + 2;
                     estado <= Fetch;
                 ELSIF (IR = "00010011") THEN
                     -- Leer de la RAM a RegsABCD
-                    RegsABCD(to_integer(unsigned(MAR))) <=
-                    RAM( to_integer( unsigned( RegsABCD( to_integer(unsigned( ROM_Program(PC2) )) ) ) ) );
+                    RegsABCD(to_integer(unsigned(MAR))) <= RAM(to_integer(unsigned(RegsABCD(to_integer(unsigned(ROM_Program(PC2)))))));
                     PC <= PC + 3;
                     estado <= Fetch;
                 ELSIF (IR = "00010100") THEN
                     -- Escribir de la ROM a la RAM
-                    RAM(to_integer(unsigned(RegsABCD(to_integer(unsigned(MAR)))))) <= "00000000" & ROM_program(to_integer(unsigned(RegsABCD(to_integer(unsigned(ROM_Program(PC2)))))));
+                    RAM(to_integer(unsigned(RegsABCD(to_integer(unsigned(MAR))))))
+                        <= "00000000" & ROM_program(to_integer(unsigned(RegsABCD(to_integer(unsigned(ROM_Program(PC2)))))));
                     PC <= PC + 3;
                     estado <= Fetch;
                 ELSIF (IR = "00010101") THEN
@@ -509,10 +511,8 @@ BEGIN
                     PC <= PC + 1;
                     estado <= Fetch;
                 ELSE
-                    REAUX <=
-                        signed(RegsABCD(to_integer(unsigned(MAR(7 DOWNTO 4)))));
-                    REAUX2 <=
-                        signed(RegsABCD(to_integer(unsigned(MAR(3 DOWNTO 0)))));
+                    REAUX <= signed(RegsABCD(to_integer(unsigned(MAR(7 DOWNTO 4)))));
+                    REAUX2 <= signed(RegsABCD(to_integer(unsigned(MAR(3 DOWNTO 0)))));
                     estado <= Execute;
                 END IF;
             WHEN Execute =>
@@ -525,8 +525,8 @@ BEGIN
     cuenta <= '0' & MBR(14 DOWNTO 0);
 END PROCESS;
 
-ahor : PROCESS (clk_lett2, izq, der, enter, line1Sig, line2Sig, mov_pc,
-    contaux2) -- Control del ahorcado
+
+ahor : PROCESS (clk_lett2, reset,izq, der, enter, line1Sig, line2Sig, mov_pc, contaux2) -- Control del ahorcado
 BEGIN
     IF (clk_lett2'EVENT AND clk_lett2 = '1') THEN
         IF (reset = '0') THEN
@@ -538,6 +538,8 @@ BEGIN
         END IF;
         CASE est IS
             WHEN frase =>
+                contaux2 <= 0;
+                contaux <= 0;
                 line1Sig <= RAM(0)(7 DOWNTO 0) &
                     RAM(1)(7 DOWNTO 0) &
                     RAM(2)(7 DOWNTO 0) &
@@ -590,6 +592,10 @@ BEGIN
                     contaux <= 97;
                     mov_pc <= '1';
                 END IF;
+            -- Reset de señales
+            auxP <= "11111111";
+            auxP1 <= (others => '0') ;
+            auxP2 <= (others => '0') ;
             WHEN palabra =>
                 mov_pc <= '0';
                 vidas <= auxV;
@@ -722,6 +728,7 @@ BEGIN
                             WHEN 100 =>
                                 IF (auxV /= "000") THEN
                                     IF (auxP2 = "0111011001100101011011100111010001101001011011000110000101100100011011110111001000100000") THEN -- ventilador
+                                        line1Sig <= line1Sig;
                                         juego <= win;
                                     ELSE
                                         IF (auxP = "01101111") THEN -- o
@@ -854,7 +861,7 @@ BEGIN
                             WHEN OTHERS =>
                                 IF (auxV /= "000") THEN
                                     IF (auxP2 = "0110110101100001011100100110100101101110011011110010000000100000001000000010000000100000") THEN -- marino
-                                        line1Sig <= line1Sig;
+                                        -- line1Sig <= line1Sig;
                                         juego <= win;
                                     ELSE
                                         IF (auxP = "01100101") THEN -- e
@@ -890,7 +897,7 @@ BEGIN
                         line2Sig(119 DOWNTO 112) <= STD_LOGIC_VECTOR(to_unsigned(contaux, IR'length));
                     WHEN win =>
                         line2Sig(119 DOWNTO 56) <=
-                        "0100011101000001010011100100000101010011010101000100010111110101";--PalabraGANASTE
+                        "0100011101000001010011100100000101010011010101000100010111110101";--Palabra GANASTE
                     WHEN lose => line2Sig(119 DOWNTO 48) <= "010000010100100001001111010100100100001101000001010001000100111111101111";--Palabra AHORCADO
                 END CASE;
             IF (izq = '1') THEN
@@ -933,8 +940,7 @@ BEGIN
             );
         WHEN "00001000" => -- REAUX3 <= REAUX-REAUX2;
             --R E S T A
-            REAUX3(14 DOWNTO 0) <= (NOT REAUX2(14 DOWNTO 0)) +
-            1; --complemento a 2
+            REAUX3(14 DOWNTO 0) <= (NOT REAUX2(14 DOWNTO 0)) + 1; --complemento a 2
             IF ((REAUX(14) XOR REAUX3(14)) = '1') THEN
                 ACC <= STD_LOGIC_VECTOR(REAUX - REAUX2);
                 veriBandera(ACC, STD_LOGIC_VECTOR(REAUX), STD_LOGIC_VECTOR(REAUX2), bandera
@@ -949,115 +955,103 @@ BEGIN
     END CASE;
 END PROCESS;
 
-contLCD : PROCESS (clk, reset, line1Sig, line2Sig, dispmode) -- Interfaz de la LCD
+contLCD : PROCESS (clk_lett, reset, line1Sig, line2Sig, dispmode)
     VARIABLE count : INTEGER := 0;
 BEGIN
-    IF (Reset = '0') THEN
+    IF (reset = '0') THEN
         state <= power_up;
-    ELSIF (clk'EVENT AND clk = '1') THEN
+        count := 0;
+        RS <= '0';
+        RW <= '0';
+        DB <= (OTHERS => '0');
+        E <= '0';
+        ptr <= 0;
+        line <= '1';
+    ELSIF (clk_lett'EVENT AND clk_lett = '1') THEN
         CASE state IS
-            WHEN power_up => --wait 50 ms to ensure Vddhas risen and required LCD wait is met
-                IF (count < (50000 * freq)) THEN --wait50 ms
+            WHEN power_up =>
+                IF (count < (50000 * freq)) THEN
                     count := count + 1;
-                    state <= power_up;
-                ELSE --power-up complete
+                ELSE
                     count := 0;
                     RS <= '0';
                     RW <= '0';
                     DB <= "00110000";
                     state <= initialize;
                 END IF;
-            WHEN initialize => --cycle throughinitialization sequence
+            WHEN initialize =>
                 count := count + 1;
-                IF (count < (10 * freq)) THEN --function set
-                    DB <= "00111100"; --2-linemode, display on
+                IF (count < (10 * freq)) THEN
+                    DB <= "00111100"; -- 2-line mode, display on
                     E <= '1';
-                    state <= initialize;
-                ELSIF (count < (60 * freq)) THEN --wait50 us
+                ELSIF (count < (60 * freq)) THEN
                     DB <= "00000000";
                     E <= '0';
-                    state <= initialize;
-                ELSIF (count < (70 * freq)) THEN --display on/off control
-                    DB <= "00001100"; --display on, cursor off, blink off
+                ELSIF (count < (70 * freq)) THEN
+                    DB <= "00001100"; -- display on, cursor off, blink off
                     E <= '1';
-                    state <= initialize;
-                ELSIF (count < (120 * freq)) THEN --wait50 us
+                ELSIF (count < (120 * freq)) THEN
                     DB <= "00000000";
                     E <= '0';
-                    state <= initialize;
-                ELSIF (count < (130 * freq)) THEN --display clear
-                    DB <= "00000001";
+                ELSIF (count < (130 * freq)) THEN
+                    DB <= "00000001"; -- display clear
                     E <= '1';
-                    state <= initialize;
-                ELSIF (count < (2130 * freq)) THEN --wait2 ms
+                ELSIF (count < (2130 * freq)) THEN
                     DB <= "00000000";
                     E <= '0';
-                    state <= initialize;
-                ELSIF (count < (2140 * freq)) THEN --entrymode set
-                    DB <= "00000110"; --incrementmode, entire shift off
+                ELSIF (count < (2140 * freq)) THEN
+                    DB <= "00000110"; -- entry mode set
                     E <= '1';
-                    state <= initialize;
-                ELSIF (count < (2200 * freq)) THEN --wait60 us
+                ELSIF (count < (2200 * freq)) THEN
                     DB <= "00000000";
                     E <= '0';
-                    state <= initialize;
-                ELSE --initialization complete
+                ELSE
                     count := 0;
-                    state <= RESETLINE;
+                    state <= resetline;
                 END IF;
-            WHEN RESETLINE =>
+            WHEN resetline =>
                 ptr <= 16;
                 IF line = '1' THEN
                     DB <= "10000000";
-                    RS <= '0';
-                    RW <= '0';
-                    count := 0;
-                    state <= send;
                 ELSE
                     DB <= "11000000";
-                    RS <= '0';
-                    RW <= '0';
-                    count := 0;
-                    state <= send;
                 END IF;
+                RS <= '0';
+                RW <= '0';
+                count := 0;
+                state <= send;
             WHEN line1 =>
                 line <= '1';
-                IF dispmode = '1' AND (ptr = 6 OR ptr = 7
-                    ) THEN
+                IF dispmode = '1' AND (ptr = 6 OR ptr = 7) THEN
                     IF ptr = 7 THEN
-                        DB <= "0011" & bcdsig(7
-                            DOWNTO 4);
+                        DB <= "0011" & bcdsig(7 DOWNTO 4);
                     ELSE
-                        DB <= "0011" & bcdsig(3
-                            DOWNTO 0);
+                        DB <= "0011" & bcdsig(3 DOWNTO 0);
                     END IF;
                 ELSE
-                    DB <= line1Sig(ptr * 8 + 7 DOWNTO
-                        ptr * 8);
+                    DB <= line1Sig((ptr * 8 + 7) DOWNTO (ptr * 8));
                 END IF;
                 RS <= '1';
                 RW <= '0';
                 count := 0;
-                line <= '1';
                 state <= send;
             WHEN line2 =>
                 line <= '0';
-                DB <= line2Sig(ptr * 8 + 7 DOWNTO ptr * 8);
+                DB <= line2Sig((ptr * 8 + 7) DOWNTO (ptr * 8));
                 RS <= '1';
                 RW <= '0';
                 count := 0;
                 state <= send;
-            WHEN send => --send instruction to lcd
-                IF (count < (50 * freq)) THEN --do notexit for 50us
-                    IF (count < freq) THEN --negative enable
+            WHEN send =>
+                IF (count < (50 * freq)) THEN
+                    IF (count < freq) THEN
                         E <= '0';
-                    ELSIF (count < (14 * freq)) THEN --positive enable half-cycle
+                    ELSIF (count < (14 * freq)) THEN
                         E <= '1';
-                    ELSIF (count < (27 * freq)) THEN --negative enable half-cycle
+                    ELSIF (count < (27 * freq)) THEN
                         E <= '0';
                     END IF;
                     count := count + 1;
-                    state <= send;
                 ELSE
                     count := 0;
                     IF line = '1' THEN
@@ -1081,4 +1075,5 @@ BEGIN
         END CASE;
     END IF;
 END PROCESS contLCD;
+
 END programa;
