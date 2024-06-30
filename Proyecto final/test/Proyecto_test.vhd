@@ -616,16 +616,16 @@ BEGIN
                                             line1Sig <= line1Sig;
                                             juego <= win;
                                         ELSE
-                                            IF (auxP = "01101101") THEN -- h
-                                                auxP1(87 DOWNTO 80) <= "01101101";
+                                            IF (auxP = "01101000") THEN -- h
+                                                auxP1(87 DOWNTO 80) <= "01101000";
                                                 auxP <= "11111111";
                                                 contaux <= 97;
-                                            ELSIF (auxP = "01110100") THEN -- u
-                                                auxP1(71 DOWNTO 64) <= "01110100";
+                                            ELSIF (auxP = "01110101") THEN -- u
+                                                auxP1(71 DOWNTO 64) <= "01110101";
                                                 auxP <= "11111111";
                                                 contaux <= 97;
-                                            ELSIF (auxP = "01110100") THEN -- e
-                                                auxP1(55 DOWNTO 48) <= "01110100";
+                                            ELSIF (auxP = "01100101") THEN -- e
+                                                auxP1(55 DOWNTO 48) <= "01100101";
                                                 auxP <= "11111111";
                                                 contaux <= 97;
                                             ELSIF (auxP = "11111111") THEN
@@ -707,7 +707,7 @@ BEGIN
                                                     ELSE
                                                         IF (auxP = "01101110") THEN -- n
                                                             auxP1(79 DOWNTO 72) <= "01101110";
-                                                            auxP1(23 DOWNTO 16) <= "01101110"
+                                                            auxP1(23 DOWNTO 16) <= "01101110";
                                                             auxP <= "11111111";
                                                             contaux <= 97;
                                                         ELSIF (auxP = "01100100") THEN -- d
@@ -737,8 +737,8 @@ BEGIN
                                                 <= STD_LOGIC_VECTOR(to_unsigned(contaux, IR'length));
                                             WHEN win =>
                                                 line2Sig(119 DOWNTO 56) <=
-                                                "0111011101101001011011100010000100100001001000010010000100100001";--PalabraGANASTE
-                                            WHEN lose => line2Sig(119 DOWNTO 48) <= "011011000110111101110011011001010010000100100001001000010010000100100001";--Palabra AHORCADO
+                                                "0111011101101001011011100010000100100001001000010010000100100001";--Palabra win!!!
+                                            WHEN lose => line2Sig(119 DOWNTO 48) <= "011011000110111101110011011001010010000100100001001000010010000100100001";--Palabra lose!!!
                                             END CASE;
                                             IF (izq = '1') THEN
                                                 IF (contaux = 97) THEN
