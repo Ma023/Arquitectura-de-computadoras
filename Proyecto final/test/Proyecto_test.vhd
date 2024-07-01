@@ -289,53 +289,54 @@ ARCHITECTURE programa OF practica IS
         240 => "11100001", -- Goto 225
         OTHERS => ("11111111")
     );
-    -----------------------------------Se�ales para control del Display
-    SIGNAL cuenta : STD_LOGIC_VECTOR(15 DOWNTO 0); -- almacena eldato a multiplexar
-    ----------------------------------Se�ales auxiliares para el ciclo fetch
-    SIGNAL bandera : STD_LOGIC_VECTOR (3 DOWNTO 0) := (OTHERS => '0');
-    --signal comparador: std_logic_vector (2 downto 0) := (OTHERS => '0');
-    SIGNAL PC1, PC2 : INTEGER;
-    ------------------------------------Registros de proposito especifico
-    SIGNAL dispmode : STD_LOGIC;
-    SIGNAL PC : INTEGER := 0;
-    SIGNAL MAR, IR : STD_LOGIC_VECTOR(7 DOWNTO 0) := "00000000";
-    SIGNAL MBR, ACC : STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
-    ----------------------------------------Registros de entrada a la ALU
-    TYPE REGISTROS IS ARRAY (15 DOWNTO 0) OF STD_LOGIC_VECTOR(15 DOWNTO 0);
-    TYPE ESTADOS IS (Fetch, Decode, Execute);
-    SIGNAL estado : ESTADOS;
-    SIGNAL RegsABCD : REGISTROS;
-    SIGNAL REAUX, REAUX2, REAUX3 : signed(15 DOWNTO 0) := "0000000000000000"; --Auxiliares
-    ------------------------------------Se�ales para controlar la LCD
-    TYPE CONTROL IS(power_up, initialize, RESETLINE, line1, line2, send);
-    TYPE CASO IS (frase, palabra);
-    TYPE GAME IS (ini, veri, win, lose);
-    SIGNAL state : CONTROL;
-    SIGNAL est : CASO;
-    SIGNAL juego : GAME;
-    SIGNAL bcdSig : STD_LOGIC_VECTOR(11 DOWNTO 0);
-    CONSTANT freq : INTEGER := 133; --system clock frequency in MHz
-    SIGNAL ptr : NATURAL RANGE 0 TO 16 := 15; -- To keep track of what character weare up to
-    SIGNAL line : STD_LOGIC := '1';
-    SIGNAL line1Sig : STD_LOGIC_VECTOR(127 DOWNTO 0); -- Guarda lo que se muestra enla linea1 de la LCD
-    SIGNAL line2Sig : STD_LOGIC_VECTOR(127 DOWNTO 0); -- Guarda lo que se muestra enla linea2 de la LCD
-    SIGNAL contaux, contaux2 : INTEGER := 97;
-    SIGNAL mov_pc : STD_LOGIC := '0'; -- Se�al auxiliar para poder controlar el PCdesde el juego
-    SIGNAL auxV : STD_LOGIC_VECTOR(2 DOWNTO 0); -- Guarda las vidas que tiene eljugador
-    SIGNAL auxP : STD_LOGIC_VECTOR(7 DOWNTO 0) := "11111111"; -- Guarda la letraseleccionada por el usuario
-    SIGNAL auxP1, auxP2 : STD_LOGIC_VECTOR(87 DOWNTO 0); -- Se�ales para laveriicacion de la palabra
-    -----------------------------------------------------Senales de reloj
-    SIGNAL CLK : STD_LOGIC;
-    CONSTANT max_count_lett2 : INTEGER := 5319600; --numero maximo para lacuenta
-    SIGNAL count_lett2 : INTEGER RANGE 0 TO max_count_lett2; --llevara la cuentahasta el 4433000
-    SIGNAL clk_lett2 : STD_LOGIC := '0'; --senal para el clock a120 ms
-    CONSTANT max_count_lett : INTEGER := 69; --numero maximo para lacuenta
-    --constant max_count_lett: INTEGER := 11082500; --numero maximo parala cuenta
-    SIGNAL count_lett : INTEGER RANGE 0 TO max_count_lett; --llevara la cuentahasta el 692656 || 11082500
-    SIGNAL clk_lett : STD_LOGIC := '0'; --senal para el clockde las letras de la LCD
-    CONSTANT max_count_med : INTEGER := 10000; --numero maximo para lacuenta
-    SIGNAL count_med : INTEGER RANGE 0 TO max_count_med; --llevara la cuentahasta el 10000
-    SIGNAL clk_med : STD_LOGIC := '0'; --senal para el clockmedio
+   -- Señales para control del Display
+SIGNAL cuenta : STD_LOGIC_VECTOR(15 DOWNTO 0);
+
+-- Señales auxiliares para el ciclo fetch
+SIGNAL bandera : STD_LOGIC_VECTOR (3 DOWNTO 0) := (OTHERS => '0');
+SIGNAL PC1, PC2 : INTEGER;
+SIGNAL dispmode : STD_LOGIC;
+SIGNAL PC : INTEGER := 0;
+SIGNAL MAR, IR : STD_LOGIC_VECTOR(7 DOWNTO 0) := "00000000";
+SIGNAL MBR, ACC : STD_LOGIC_VECTOR(15 DOWNTO 0) := "0000000000000000";
+
+-- Registros de entrada a la ALU
+TYPE REGISTROS IS ARRAY (15 DOWNTO 0) OF STD_LOGIC_VECTOR(15 DOWNTO 0);
+TYPE ESTADOS IS (Fetch, Decode, Execute);
+SIGNAL estado : ESTADOS;
+SIGNAL RegsABCD : REGISTROS;
+SIGNAL REAUX, REAUX2, REAUX3 : signed(15 DOWNTO 0) := "0000000000000000";
+
+-- Señales para controlar la LCD
+TYPE CONTROL IS (power_up, initialize, RESETLINE, line1, line2, send);
+TYPE CASO IS (frase, palabra);
+TYPE GAME IS (ini, veri, win, lose);
+SIGNAL state : CONTROL;
+SIGNAL est : CASO;
+SIGNAL juego : GAME;
+SIGNAL bcdSig : STD_LOGIC_VECTOR(11 DOWNTO 0);
+CONSTANT freq : INTEGER := 133;
+SIGNAL ptr : NATURAL RANGE 0 TO 16 := 15;
+SIGNAL line : STD_LOGIC := '1';
+SIGNAL line1Sig : STD_LOGIC_VECTOR(127 DOWNTO 0);
+SIGNAL line2Sig : STD_LOGIC_VECTOR(127 DOWNTO 0);
+SIGNAL contaux, contaux2 : INTEGER := 97;
+SIGNAL mov_pc : STD_LOGIC := '0';
+SIGNAL auxV : STD_LOGIC_VECTOR(2 DOWNTO 0);
+SIGNAL auxP : STD_LOGIC_VECTOR(7 DOWNTO 0) := "11111111";
+SIGNAL auxP1, auxP2 : STD_LOGIC_VECTOR(87 DOWNTO 0);
+
+-- Señales de reloj
+SIGNAL CLK : STD_LOGIC;
+CONSTANT max_count_lett2 : INTEGER := 5319600;
+SIGNAL count_lett2 : INTEGER RANGE 0 TO max_count_lett2;
+SIGNAL clk_lett2 : STD_LOGIC := '0';
+CONSTANT max_count_lett : INTEGER := 69;
+SIGNAL count_lett : INTEGER RANGE 0 TO max_count_lett;
+SIGNAL clk_lett : STD_LOGIC := '0';
+CONSTANT max_count_med : INTEGER := 10000;
+SIGNAL count_med : INTEGER RANGE 0 TO max_count_med;
+SIGNAL clk_med : STD_LOGIC := '0';
     
     PROCEDURE veriBandera(a, x, y : IN STD_LOGIC_VECTOR(15 DOWNTO 0); SIGNAL bandera :
     OUT STD_LOGIC_VECTOR(3 DOWNTO 0)) IS
@@ -979,56 +980,56 @@ BEGIN
         state <= power_up;
     ELSIF (clk'EVENT AND clk = '1') THEN
         CASE state IS
-            WHEN power_up => --wait 50 ms to ensure Vddhas risen and required LCD wait is met
-                IF (count < (50000 * freq)) THEN --wait50 ms
-                    count := count + 1;
-                    state <= power_up;
-                ELSE --power-up complete
-                    count := 0;
-                    RS <= '0';
-                    RW <= '0';
-                    DB <= "00110000";
-                    state <= initialize;
-                END IF;
-            
-            WHEN initialize => --cycle throughinitialization sequence
-                count := count + 1;
-                IF (count < (10 * freq)) THEN --function set
-                    DB <= "00111100"; --2-linemode, display on
-                    E <= '1';
-                    state <= initialize;
-                ELSIF (count < (60 * freq)) THEN --wait50 us
-                    DB <= "00000000";
-                    E <= '0';
-                    state <= initialize;
-                ELSIF (count < (70 * freq)) THEN --display on/off control
-                    DB <= "00001100"; --displayon, cursor off, blink off
-                    E <= '1';
-                    state <= initialize;
-                ELSIF (count < (120 * freq)) THEN --wait50 us
-                    DB <= "00000000";
-                    E <= '0';
-                    state <= initialize;
-                ELSIF (count < (130 * freq)) THEN --display clear
-                    DB <= "00000001";
-                    E <= '1';
-                    state <= initialize;
-                ELSIF (count < (2130 * freq)) THEN --wait2 ms
-                    DB <= "00000000";
-                    E <= '0';
-                    state <= initialize;
-                ELSIF (count < (2140 * freq)) THEN --entrymode set
-                    DB <= "00000110"; --incrementmode, entire shift off
-                    E <= '1';
-                    state <= initialize;
-                ELSIF (count < (2200 * freq)) THEN --wait60 us
-                    DB <= "00000000";
-                    E <= '0';
-                    state <= initialize;
-                ELSE --initialization complete
-                    count := 0;
-                    state <= RESETLINE;
-                END IF;
+        WHEN power_up => --espera 50 ms para asegurarse de que Vdd ha subido y se ha cumplido el tiempo de espera requerido por la LCD
+        IF (count < (50000 * freq)) THEN --espera 50 ms
+            count := count + 1;
+            state <= power_up;
+        ELSE --inicialización completa
+            count := 0;
+            RS <= '0';
+            RW <= '0';
+            DB <= "00110000";
+            state <= initialize;
+        END IF;
+    
+    WHEN initialize => --ciclo a través de la secuencia de inicialización
+        count := count + 1;
+        IF (count < (10 * freq)) THEN --configuración de función
+            DB <= "00111100"; --modo de 2 líneas, pantalla encendida
+            E <= '1';
+            state <= initialize;
+        ELSIF (count < (60 * freq)) THEN --espera 50 us
+            DB <= "00000000";
+            E <= '0';
+            state <= initialize;
+        ELSIF (count < (70 * freq)) THEN --control de pantalla encendida/apagada
+            DB <= "00001100"; --pantalla encendida, cursor apagado, parpadeo apagado
+            E <= '1';
+            state <= initialize;
+        ELSIF (count < (120 * freq)) THEN --espera 50 us
+            DB <= "00000000";
+            E <= '0';
+            state <= initialize;
+        ELSIF (count < (130 * freq)) THEN --limpiar pantalla
+            DB <= "00000001";
+            E <= '1';
+            state <= initialize;
+        ELSIF (count < (2130 * freq)) THEN --espera 2 ms
+            DB <= "00000000";
+            E <= '0';
+            state <= initialize;
+        ELSIF (count < (2140 * freq)) THEN --configuración de modo de entrada
+            DB <= "00000110"; --modo de incremento, desplazamiento completo apagado
+            E <= '1';
+            state <= initialize;
+        ELSIF (count < (2200 * freq)) THEN --espera 60 us
+            DB <= "00000000";
+            E <= '0';
+            state <= initialize;
+        ELSE --inicialización completa
+            count := 0;
+            state <= RESETLINE;
+        END IF;
             
             WHEN RESETLINE =>
                 ptr <= 16;
